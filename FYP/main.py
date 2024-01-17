@@ -42,6 +42,7 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def update_output(self, message):
         # This function updates the UI and is triggered by the signal
         self.label_output.setText(message)
+#        ///
 
 
 if __name__ == "__main__":
