@@ -61,6 +61,12 @@ def save_user():
             lcd.lcd_display_string("User " + new_name + "\nSaved",1,0)
             lcd.lcd_display_string("Department " + new_dept + "\nSaved",2,0)
             time.sleep(2)
+
+            lcd.lcd_clear()
+            lcd.lcd_display_string('Continue? (y/n)', 1, 0)
+            continue_response = input("Continue? (y/n): ")
+            if continue_response.lower() != 'y':
+                break
     finally:
         GPIO.cleanup()
 

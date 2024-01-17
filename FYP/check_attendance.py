@@ -39,5 +39,11 @@ def check_attendance():
             else:
                 lcd.lcd_display_string("User does not exist.")
             time.sleep(2)
+
+            lcd.lcd_clear()
+            lcd.lcd_display_string('Continue? (y/n)', 1, 0)
+            continue_response = input("Continue? (y/n): ")
+            if continue_response.lower() != 'y':
+                break
     finally:
         GPIO.cleanup()

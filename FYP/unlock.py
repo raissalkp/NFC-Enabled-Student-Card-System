@@ -81,4 +81,10 @@ def unlock_door():
             sleep(0.3)
             GPIO.output(buzzer,GPIO.LOW)
 
+        lcd.lcd_clear()
+        lcd.lcd_display_string('Continue? (y/n)', 1, 0)
+        continue_response = input("Continue? (y/n): ")
+        if continue_response.lower() != 'y':
+            break
+
     GPIO.cleanup()
