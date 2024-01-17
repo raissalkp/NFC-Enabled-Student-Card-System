@@ -24,24 +24,24 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.start_unlock()
 
     def start_check_attendance(self):
-        user_input = self.lineEdit.text()
+        user_input = self.textEdit_2.text()
         thread = threading.Thread(
             target=lambda: check_attendance.check_attendance(user_input, self.update_output_signal.emit))
         thread.start()
 
     def start_save_user(self):
-        user_input = self.lineEdit.text()
+        user_input = self.textEdit_2.text()
         thread = threading.Thread(target=lambda: save_user.save_user(user_input, self.update_output_signal.emit))
         thread.start()
 
     def start_unlock(self):
-        user_input = self.lineEdit.text()
+        user_input = self.textEdit_2.text()
         thread = threading.Thread(target=lambda: unlock.unlock_door(user_input, self.update_output_signal.emit))
         thread.start()
 
     def update_output(self, message):
         # This function updates the UI and is triggered by the signal
-        self.label_output.setText(message)
+        self.lineEdit.setText(message)
 
 
 if __name__ == "__main__":
