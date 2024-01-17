@@ -38,9 +38,15 @@ class Ui_MainWindow(object):
         self.dateTimeEdit.setCurrentSection(QtWidgets.QDateTimeEdit.DaySection)
         self.dateTimeEdit.setCalendarPopup(True)
         self.dateTimeEdit.setObjectName("dateTimeEdit")
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(20, 150, 341, 22))
+        self.lineEdit.setObjectName("lineEdit")
+        self.textEdit_2 = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit_2.setGeometry(QtCore.QRect(20, 190, 341, 121))
+        self.textEdit_2.setObjectName("textEdit_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -54,10 +60,13 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.textEdit.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
-"<p align=\"center\" dir=\'rtl\' style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:26pt; font-weight:600; vertical-align:sub;\">Welcome to the Student Centre Dashboard</span></p></body></html>"))
+"hr { height: 1px; border-width: 0; }\n"
+"li.unchecked::marker { content: \"\\2610\"; }\n"
+"li.checked::marker { content: \"\\2612\"; }\n"
+"</style></head><body style=\" font-family:\'Segoe UI\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p align=\"center\" dir=\'rtl\' style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-family:\'MS Shell Dlg 2\'; font-size:26pt; font-weight:600; vertical-align:sub;\">Welcome to the Student Centre Dashboard</span></p></body></html>"))
         self.comboBox.setItemText(0, _translate("MainWindow", "Attendance"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Add New Student"))
         self.comboBox.setItemText(2, _translate("MainWindow", "Unlock Door"))

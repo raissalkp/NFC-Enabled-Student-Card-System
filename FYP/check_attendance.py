@@ -6,44 +6,44 @@ import mysql.connector
 import I2C_LCD_driver as LCD
 
 
-def check_attendance():
-    db = mysql.connector.connect(
-      host="localhost",
-      user="attendanceadmin",
-      passwd="pimylifeup",
-      database="attendancesystem"
-    )
-
-    cursor = db.cursor()
-    read = SimpleMFRC522()
-
-    lcd = LCD.lcd()
-
-
+def check_attendance(user_input, output_callback):
     try:
+        read = SimpleMFRC522()
+        lcd = LCD.lcd()
+
         while True:
             lcd.lcd_clear()
-            lcd.lcd_display_string("Place Card to ",1,0)
-            lcd.lcd_display_string("record attendance",2,0)
-            id,Tag = read.read()
+            lcd.lcd_display_string("Place Card to ", 1, 0)
+            lcd.lcd_display_string("record attendance", 2, 0)
+            output_callback("Place Card to record attendance. User: " + user_input)
 
-            cursor.execute("Select id, name FROM users where rfid_uid="+str(id))
-            result = cursor.fetchone()
+            id, Tag = read.read()
 
-            lcd.lcd_clear()
+            with mysql.connector.connect(
+                    host="localhost",
+                    user="attendanceadmin",
+                    passwd="pimylifeup",
+                    database="attendancesystem"
+            ) as db:
+                cursor = db.cursor()
+                cursor.execute("SELECT id, name FROM users WHERE rfid_uid=%s", (str(id),))
+                result = cursor.fetchone()
 
-            if cursor.rowcount >=1:
-                lcd.lcd_display_string("Signed in " + result[1])
-                cursor.execute("INSERT INTO attendance (user_id) VALUES (%s)", (result[0],))
-                db.commit()
-            else:
-                lcd.lcd_display_string("User does not exist.")
+                lcd.lcd_clear()
+                if cursor.rowcount >= 1:
+                    lcd.lcd_display_string("Signed in " + result[1])
+                    output_callback("Signed in " + result[1])
+                    cursor.execute("INSERT INTO attendance (user_id) VALUES (%s)", (result[0],))
+                    db.commit()
+                else:
+                    lcd.lcd_display_string("User does not exist.")
+                    output_callback("User does not exist.")
+
+            # Handle 'continue' logic through your PyQt5 interface instead of console input
+            # Wait for a signal from the GUI or use a different mechanism
+
             time.sleep(2)
-
-            lcd.lcd_clear()
-            lcd.lcd_display_string('Continue? (y/n)', 1, 0)
-            continue_response = input("Continue? (y/n): ")
-            if continue_response.lower() != 'y':
-                break
+    except Exception as e:
+        output_callback("Error: " + str(e))
     finally:
         GPIO.cleanup()
