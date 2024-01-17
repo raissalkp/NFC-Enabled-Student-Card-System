@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from time import sleep
 
-def unlock_door():
+def unlock_door(user_input, output_callback):
 
     #Include the buzzer pin
     buzzer = 19
@@ -30,6 +30,7 @@ def unlock_door():
 
     #Starting text
     lcd.lcd_display_string("Door lock system",1,0)
+    output_callback("Door lock system")
     for a in range (0,15):
         lcd.lcd_display_string(".",2,a)
         sleep(0.1)
@@ -37,7 +38,8 @@ def unlock_door():
 
     while True:
         lcd.lcd_clear()
-        lcd.lcd_display_string("Place your Tag",1,1)
+        lcd.lcd_display_string("Place your Tag",1,0)
+        output_callback("Place your Tag")
         id,Tag = read.read()
 
         id = str(id)
@@ -45,9 +47,11 @@ def unlock_door():
         if id == Tag_ID:
             lcd.lcd_clear()
             lcd.lcd_display_string("Successful",1,3)
+            output_callback("Successful")
 
             if door == True:
                 lcd.lcd_display_string("Door is locked",2,1)
+                output_callback("Door is locked")
                 GPIO.output(relay,GPIO.HIGH)
                 GPIO.output(buzzer,GPIO.HIGH)
                 sleep(0.5)
@@ -58,6 +62,7 @@ def unlock_door():
 
             elif door == False:
                 lcd.lcd_display_string("Door is open",2,2)
+                output_callback("Door is open")
                 GPIO.output(relay,GPIO.LOW)
                 GPIO.output(buzzer,GPIO.HIGH)
                 sleep(0.5)
@@ -69,6 +74,7 @@ def unlock_door():
         else:
             lcd.lcd_clear()
             lcd.lcd_display_string("Wrong Tag!",1,3)
+            output_callback("Wrong Tag!")
             GPIO.output(buzzer,GPIO.HIGH)
             sleep(0.3)
             GPIO.output(buzzer,GPIO.LOW)
@@ -83,6 +89,7 @@ def unlock_door():
 
         lcd.lcd_clear()
         lcd.lcd_display_string('Continue? (y/n)', 1, 0)
+        output_callback("Continue? (y/n)")
         continue_response = input("Continue? (y/n): ")
         if continue_response.lower() != 'y':
             break
