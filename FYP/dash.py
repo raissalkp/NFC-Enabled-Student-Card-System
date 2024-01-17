@@ -45,7 +45,8 @@ class Ui_MainWindow(object):
         self.textEdit_2.setGeometry(QtCore.QRect(20, 190, 341, 121))
         self.textEdit_2.setObjectName("textEdit_2")
         self.label_output = QtWidgets.QLabel(self.centralwidget)
-        self.label_output.setGeometry(QtCore.QRect(20, 130, 49, 16))
+        self.label_output.setGeometry(QtCore.QRect(20, 130, 341, 16))
+        self.label_output.setText("")
         self.label_output.setObjectName("label_output")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -73,7 +74,6 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(0, _translate("MainWindow", "Attendance"))
         self.comboBox.setItemText(1, _translate("MainWindow", "Add New Student"))
         self.comboBox.setItemText(2, _translate("MainWindow", "Unlock Door"))
-        self.label_output.setText(_translate("MainWindow", "TextLabel"))
 
 
 if __name__ == "__main__":
