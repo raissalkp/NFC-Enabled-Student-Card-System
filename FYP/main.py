@@ -7,17 +7,17 @@ import unlock
 
 
 def start_check_attendance():
-    thread = threading.Thread(target=check_attendance.checkattendance)
+    thread = threading.Thread(target=check_attendance.check_attendance())
     thread.start()
 
 
 def start_save_user():
-    thread = threading.Thread(target=save_user.saveuser)
+    thread = threading.Thread(target=save_user.save_user())
     thread.start()
 
 
 def start_unlock():
-    thread = threading.Thread(target=unlock.unlock)
+    thread = threading.Thread(target=unlock.unlock_door())
     thread.start()
 
 
