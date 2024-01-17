@@ -6,7 +6,7 @@ import mysql.connector
 import I2C_LCD_driver as LCD
 
 
-def save_user(user_input, output_callback):
+def save_user():
     db = mysql.connector.connect(
         host="localhost",
         user="attendanceadmin",
