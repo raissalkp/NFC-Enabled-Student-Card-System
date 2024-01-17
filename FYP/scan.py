@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from time import sleep
 
-def scan():
+def scan(user_input, output_callback):
 
         #Include the buzzer pin
         buzzer = 19
