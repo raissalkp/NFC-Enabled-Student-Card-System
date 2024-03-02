@@ -18,7 +18,7 @@ def get_recent_attendance():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
-    query = "SELECT * FROM attendance WHERE timestamp >= %s"
+    query = "SELECT * FROM attendance WHERE clock_in >= %s"
     cursor.execute(query, (two_hours_ago,))
 
     records = cursor.fetchall()
