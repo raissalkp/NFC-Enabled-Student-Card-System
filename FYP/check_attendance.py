@@ -15,7 +15,7 @@ def check_attendance(user_input, output_callback):
             lcd.lcd_clear()
             lcd.lcd_display_string("Place Card to ", 1, 0)
             lcd.lcd_display_string("record attendance", 2, 0)
-            output_callback("Place Card to record attendance" + user_input)
+            output_callback("Place Card to record attendance")
 
             id, Tag = read.read()
 

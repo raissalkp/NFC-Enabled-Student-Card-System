@@ -40,7 +40,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QComboBox" name="comboBox">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>80</y>
       <width>171</width>
       <height>22</height>
@@ -62,51 +62,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
     </item>
    </widget>
-   <widget class="QDateTimeEdit" name="dateTimeEdit">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>580</x>
-      <y>80</y>
-      <width>194</width>
-      <height>22</height>
-     </rect>
-    </property>
-    <property name="readOnly">
-     <bool>true</bool>
-    </property>
-    <property name="buttonSymbols">
-     <enum>QAbstractSpinBox::NoButtons</enum>
-    </property>
-    <property name="accelerated">
-     <bool>false</bool>
-    </property>
-    <property name="dateTime">
-     <datetime>
-      <hour>20</hour>
-      <minute>51</minute>
-      <second>1</second>
-      <year>2024</year>
-      <month>1</month>
-      <day>17</day>
-     </datetime>
-    </property>
-    <property name="time">
-     <time>
-      <hour>20</hour>
-      <minute>51</minute>
-      <second>1</second>
-     </time>
-    </property>
-    <property name="currentSection">
-     <enum>QDateTimeEdit::DaySection</enum>
-    </property>
-    <property name="calendarPopup">
-     <bool>true</bool>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
@@ -114,16 +69,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
       <y>150</y>
       <width>341</width>
       <height>22</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>190</y>
-      <width>341</width>
-      <height>121</height>
      </rect>
     </property>
    </widget>
@@ -140,6 +85,75 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string/>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>80</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ok</string>
+    </property>
+   </widget>
+   <widget class="QDateTimeEdit" name="dateTimeEdit">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>90</y>
+      <width>194</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+    <property name="calendarPopup">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>80</y>
+      <width>171</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>IT</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Beauty</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sci</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Culinary</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Eng</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Staff</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -147,7 +161,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
