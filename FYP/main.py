@@ -14,6 +14,7 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.comboBox.currentIndexChanged.connect(self.onComboBoxChanged)
         self.update_output_signal.connect(self.update_output)
+        self.dateTimeEdit.setDateTime(QtCore.QDateTime.currentDateTime())
 
     def onComboBoxChanged(self, index):
         if self.comboBox.currentText() == "Attendance":
