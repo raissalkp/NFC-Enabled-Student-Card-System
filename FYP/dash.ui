@@ -62,16 +62,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
     </item>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>150</y>
-      <width>341</width>
-      <height>22</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_output">
     <property name="geometry">
      <rect>
@@ -89,7 +79,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>190</y>
+      <y>160</y>
       <width>80</width>
       <height>24</height>
      </rect>
@@ -101,8 +91,8 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QDateTimeEdit" name="dateTimeEdit">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>90</y>
+      <x>380</x>
+      <y>80</y>
       <width>194</width>
       <height>25</height>
      </rect>
@@ -117,7 +107,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
    <widget class="QComboBox" name="comboBox_2">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>200</x>
       <y>80</y>
       <width>171</width>
       <height>22</height>
@@ -154,16 +144,6 @@ li.checked::marker { content: &quot;\2612&quot;; }
      </property>
     </item>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>800</width>
-     <height>21</height>
-    </rect>
-   </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
