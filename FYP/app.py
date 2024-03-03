@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
+
 def get_db_connection():
     return mysql.connector.connect(
         host="localhost",
@@ -11,6 +12,7 @@ def get_db_connection():
         passwd="pimylifeup",
         database="attendancesystem"
     )
+
 
 @app.route('/attendance/last_2_hours')
 def get_recent_attendance():
@@ -27,6 +29,7 @@ def get_recent_attendance():
     conn.close()
 
     return jsonify(records)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)

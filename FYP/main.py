@@ -20,7 +20,6 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         lcd = I2C_LCD_driver.lcd()
         lcd.lcd_clear()
         GPIO.setwarnings(False)
-        
 
     def onComboBoxChanged(self, index):
         if self.comboBox.currentText() == "Attendance":
@@ -46,17 +45,13 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def start_unlock(self):
         selected_department = self.comboBox_2.currentText()
         print(f"Selected department: {selected_department}")  # Debug print
-        thread = threading.Thread(target=lambda: unlock.unlock_door(selected_department, self.update_output_signal.emit))
+        thread = threading.Thread(
+            target=lambda: unlock.unlock_door(selected_department, self.update_output_signal.emit))
         thread.start()
         GPIO.cleanup()
 
-
     def update_output(self, message):
         self.label_output.setText(message)
-
-
-
-
 
 
 if __name__ == "__main__":
