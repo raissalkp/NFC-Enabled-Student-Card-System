@@ -47,3 +47,4 @@ def check_attendance(user_input, output_callback):
         output_callback("Error: " + str(e))
     finally:
         GPIO.cleanup()
+    GPIO.cleanup()

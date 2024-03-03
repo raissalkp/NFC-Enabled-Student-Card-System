@@ -83,3 +83,5 @@ def save_user(user_input, output_callback):
                 break
     finally:
         GPIO.cleanup()
+        
+    GPIO.cleanup()

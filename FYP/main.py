@@ -4,6 +4,8 @@ from dash import Ui_MainWindow
 import check_attendance
 import save_user
 import unlock
+import I2C_LCD_driver
+import RPi.GPIO as GPIO
 
 
 class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -15,6 +17,10 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.comboBox.currentIndexChanged.connect(self.onComboBoxChanged)
         self.update_output_signal.connect(self.update_output)
         self.dateTimeEdit.setDateTime(QtCore.QDateTime.currentDateTime())
+        lcd = I2C_LCD_driver.lcd()
+        lcd.lcd_clear()
+        GPIO.setwarnings(False)
+        
 
     def onComboBoxChanged(self, index):
         if self.comboBox.currentText() == "Attendance":
@@ -29,21 +35,28 @@ class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         thread = threading.Thread(
             target=lambda: check_attendance.check_attendance(user_input, self.update_output_signal.emit))
         thread.start()
+        GPIO.cleanup()
 
     def start_save_user(self):
         user_input = self.lineEdit.text()
         thread = threading.Thread(target=lambda: save_user.save_user(user_input, self.update_output_signal.emit))
         thread.start()
+        GPIO.cleanup()
 
     def start_unlock(self):
-        user_input = self.lineEdit.text()
-        thread = threading.Thread(target=lambda: unlock.unlock_door(user_input, self.update_output_signal.emit))
+        selected_department = self.comboBox_2.currentText()
+        print(f"Selected department: {selected_department}")  # Debug print
+        thread = threading.Thread(target=lambda: unlock.unlock_door(selected_department, self.update_output_signal.emit))
         thread.start()
+        GPIO.cleanup()
+
 
     def update_output(self, message):
-        # This function updates the UI and is triggered by the signal
         self.label_output.setText(message)
-#        ///
+
+
+
+
 
 
 if __name__ == "__main__":
