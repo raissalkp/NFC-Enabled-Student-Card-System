@@ -1,15 +1,17 @@
 import unittest
 from unittest.mock import patch, MagicMock
+import sys
+sys.path.append('/home/raissa/FYP/FYP')
 
 
 class TestSaveUser(unittest.TestCase):
     @patch('user_module.builtins.input',
            side_effect=['John Doe', 'IT', 'n'])  # Simulated inputs for new user details and to stop the loop
-    @patch('user_module.I2C_LCD_driver.lcd')
-    @patch('user_module.mysql.connector.connect')
-    @patch('user_module.SimpleMFRC522')
-    @patch('user_module.GPIO.cleanup')
-    @patch('user_module.time.sleep', side_effect=lambda x: None)
+    @patch('save_user.LCD.lcd')
+    @patch('save_user.mysql.connector.connect')
+    @patch('save_user.SimpleMFRC522')
+    @patch('save_user.GPIO.cleanup')
+    @patch('save_user.time.sleep', side_effect=lambda x: None)
     def test_add_new_user(self, mock_sleep, mock_gpio_cleanup, mock_rfid, mock_db, mock_lcd, mock_input):
         from save_user import save_user
 

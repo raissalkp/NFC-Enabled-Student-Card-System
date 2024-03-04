@@ -1,13 +1,15 @@
 import unittest
 from unittest.mock import patch, MagicMock
+import sys
+sys.path.append('/home/raissa/FYP/FYP')
 
 
 class TestUnlockDoor(unittest.TestCase):
-    @patch('unlock_module.is_allowed_to_unlock', return_value=True)
-    @patch('unlock_module.SimpleMFRC522')
-    @patch('unlock_module.I2C_LCD_driver.lcd')
-    @patch('unlock_module.GPIO')
-    @patch('unlock_module.sleep', side_effect=lambda x: None)  # To skip actual sleeping
+    @patch('unlock.is_allowed_to_unlock', return_value=True)
+    @patch('unlock.SimpleMFRC522')
+    @patch('unlock.I2C_LCD_driver.lcd')
+    @patch('unlock.GPIO')
+    @patch('unlock.sleep', side_effect=lambda x: None)  # To skip actual sleeping
     @patch('builtins.input', side_effect=['y', 'n'])  # Simulate user input to continue, then stop
     def test_access_granted(self, mock_input, mock_sleep, mock_gpio, mock_lcd, mock_rfid, mock_is_allowed):
         from unlock import unlock_door

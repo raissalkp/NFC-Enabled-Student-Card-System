@@ -1,13 +1,15 @@
 import unittest
 from unittest.mock import patch, MagicMock
+import sys
+sys.path.append('/home/raissa/FYP/FYP')
 
 
 class TestCheckAttendance(unittest.TestCase):
-    @patch('attendance_module.I2C_LCD_driver.lcd')
-    @patch('attendance_module.mysql.connector.connect')
-    @patch('attendance_module.SimpleMFRC522')
-    @patch('attendance_module.GPIO.cleanup')
-    @patch('attendance_module.time.sleep', side_effect=lambda x: None)  # To skip actual sleeping
+    @patch('check_attendance.LCD.lcd')
+    @patch('check_attendance.mysql.connector.connect')
+    @patch('check_attendance.SimpleMFRC522')
+    @patch('check_attendance.GPIO.cleanup')
+    @patch('check_attendance.time.sleep', side_effect=lambda x: None)  # To skip actual sleeping
     def test_successful_attendance(self, mock_sleep, mock_gpio_cleanup, mock_rfid, mock_db, mock_lcd):
         from check_attendance import check_attendance
 
