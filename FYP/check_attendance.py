@@ -5,7 +5,7 @@ import mysql.connector
 import I2C_LCD_driver as LCD
 
 
-def check_attendance(user_input, output_callback):
+def check_attendance(output_callback):
     try:
         read = SimpleMFRC522()
         lcd = LCD.lcd()
