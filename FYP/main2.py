@@ -18,18 +18,18 @@ class DoorLockGUI:
         self.department_label.pack()
 
         self.department_var = tk.StringVar(master)
-        self.department_var.set("IT")
-        self.department_dropdown = tk.OptionMenu(master, self.department_var, "IT", "Beauty", "Sci",
-                                                 "Culinary", "Eng", "Staff")
+        self.department_var.set("IT")  # Default department
+        self.department_dropdown = tk.OptionMenu(master, self.department_var, "IT", "Beauty", "Sci", "Culinary", "Eng",
+                                                 "Staff")
         self.department_dropdown.pack()
 
-        self.name_label = tk.Label(master, text="Enter Name:")
-        self.name_label.pack()
-        self.name_entry = tk.Entry(master)
-        self.name_entry.pack()
+        self.name_frame = tk.Frame(master)
+        self.name_label = tk.Label(self.name_frame, text="Enter Name:")
+        self.name_label.pack(side="left")
+        self.name_entry = tk.Entry(self.name_frame)
+        self.name_entry.pack(side="left")
+        self.name_frame.pack()
 
-        self.button = tk.Button(master, text="Unlock Door", command=self.unlock_door_threaded)
-        self.button.pack()
         self.register_button = tk.Button(master, text="Register User", command=self.register_user)
         self.register_button.pack()
 
