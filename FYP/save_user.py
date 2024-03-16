@@ -25,7 +25,7 @@ def save_user(department, name, output_callback):
             lcd.lcd_display_string("register", 2, 0)
             output_callback("Place Card to register")
 
-            id, Tag = read.read()
+            id, Tag = read.read()  # Fetch RFID UID
 
             cursor.execute("SELECT id FROM users WHERE rfid_uid=" + str(id))
             cursor.fetchone()
