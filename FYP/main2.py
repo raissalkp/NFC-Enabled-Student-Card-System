@@ -20,8 +20,8 @@ class DoorLockGUI:
 
         self.department_var = tk.StringVar(master)
         self.department_var.set("IT")  # Default department
-        self.department_dropdown = tk.OptionMenu(master, self.department_var, "IT", "Beauty", "Sci", "Culinary", "Eng",
-                                                 "Staff")
+        self.department_dropdown = tk.OptionMenu(master, self.department_var, "IT", "Beauty", "OP", "Sci",
+                                                 "Culinary", "Eng", "Staff")
         self.department_dropdown.pack()
 
         self.name_frame = tk.Frame(master)
@@ -50,8 +50,11 @@ class DoorLockGUI:
 
     def _unlock_door(self, department):
         output_callback = self.display_message
-        unlock.unlock_door(department, output_callback)
-        GPIO.cleanup()
+        try:
+            unlock.unlock_door(department, output_callback)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error unlocking door: {e}")
+        # Don't call GPIO.cleanup() here
 
     def register_user(self):
         department = self.department_var.get()
@@ -60,16 +63,22 @@ class DoorLockGUI:
 
     def _register_user(self, department, name):
         output_callback = self.display_message
-        save_user.save_user(department, name, output_callback)
-        GPIO.cleanup()
+        try:
+            save_user.save_user(department, name, output_callback)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error registering user: {e}")
+        # Don't call GPIO.cleanup() here
 
     def check_attendance_threaded(self):
         threading.Thread(target=self._check_attendance).start()
 
     def _check_attendance(self):
         output_callback = self.display_message
-        check_attendance.check_attendance(None, output_callback)
-        GPIO.cleanup()
+        try:
+            check_attendance.check_attendance(None, output_callback)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error checking attendance: {e}")
+        # Don't call GPIO.cleanup() here
 
 
 root = tk.Tk()
