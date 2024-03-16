@@ -12,6 +12,10 @@ def cleanup_gpio():
     GPIO.cleanup()
 
 
+def stop_check_attendance():
+    check_attendance.stop_check_attendance()
+
+
 class NFCSYS:
     def __init__(self, master):
         self.master = master
@@ -76,12 +80,9 @@ class NFCSYS:
         output_callback = self.display_message
         threading.Thread(target=check_attendance, args=(self.terminate_check_attendance, output_callback)).start()
 
-    def stop_check_attendance(self):
-        self.terminate_check_attendance.set()
-
 
 root = tk.Tk()
 gui = NFCSYS(root)
 root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
-gui.stop_check_attendance()
+stop_check_attendance()
 root.mainloop()
