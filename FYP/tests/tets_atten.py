@@ -27,3 +27,7 @@ class TestCheckAttendance(unittest.TestCase):
         mock_lcd.lcd_clear.assert_called_once()
         mock_cursor.execute.assert_called_with("INSERT INTO attendance (user_id, name) VALUES (%s, %s)",
                                                ("RFID_UID", "John Doe"))
+
+
+if __name__ == '__main__':
+    unittest.main()
