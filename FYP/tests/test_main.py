@@ -2,7 +2,7 @@ import unittest
 import sys
 from unittest.mock import patch, MagicMock
 from PyQt5 import QtWidgets
-sys.path.append('/home/raissa/FYP/FYP')
+sys.path.append('C:/Users/raiss/OneDrive - TUS MM/SDB/Year 4/FYP/FYP')
 # Assume 'main.py' content is placed in a module named main_module
 from main import ExtendedMainWindow
 
