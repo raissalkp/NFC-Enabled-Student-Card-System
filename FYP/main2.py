@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 import unlock
 import save_user
+import check_attendance
 import threading
 import RPi.GPIO as GPIO
 
@@ -34,6 +35,8 @@ class DoorLockGUI:
         self.button.pack()
         self.register_button = tk.Button(master, text="Register User", command=self.register_user)
         self.register_button.pack()
+        self.button_check_attendance = tk.Button(master, text="Attendance", command=self.check_attendance_threaded)
+        self.button_check_attendance.pack()
 
         self.text = tk.Text(master, height=10, width=50)
         self.text.pack()
@@ -58,6 +61,14 @@ class DoorLockGUI:
     def _register_user(self, department, name):
         output_callback = self.display_message
         save_user.save_user(department, name, output_callback)
+        GPIO.cleanup()
+
+    def check_attendance_threaded(self):
+        threading.Thread(target=self._check_attendance).start()
+
+    def _check_attendance(self):
+        output_callback = self.display_message
+        check_attendance.check_attendance(None, output_callback)
         GPIO.cleanup()
 
 

@@ -39,9 +39,6 @@ def check_attendance(user_input, output_callback):
                     lcd.lcd_display_string("User does not exist.")
                     output_callback("User does not exist.")
 
-            # Handle 'continue' logic through your PyQt5 interface instead of console input
-            # Wait for a signal from the GUI or use a different mechanism
-
             time.sleep(2)
     except Exception as e:
         output_callback("Error: " + str(e))
