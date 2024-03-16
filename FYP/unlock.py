@@ -19,7 +19,7 @@ def is_allowed_to_unlock(tag_id, department):
     department = department.strip()
 
     try:
-        cursor.execute("SELECT * FROM your_table WHERE tag_id = %s AND department = %s", (tag_id, department))
+        cursor.execute("SELECT * FROM users WHERE rfid_uid = %s AND department = %s", (tag_id, department))
         record = cursor.fetchone()
 
         if record is not None:
