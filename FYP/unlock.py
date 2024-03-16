@@ -36,7 +36,6 @@ def is_allowed_to_unlock(tag_id, department):
         db.close()
 
 
-
 def unlock_door(department, output_callback):
     buzzer = 19
     relay = 26

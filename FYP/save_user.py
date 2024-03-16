@@ -1,12 +1,11 @@
-#!/usr/bin/env python
-import time
+import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import mysql.connector
 import I2C_LCD_driver as LCD
+import time
 
 
-def save_user(user_input, output_callback):
+def save_user(department, name, output_callback):
     db = mysql.connector.connect(
         host="localhost",
         user="attendanceadmin",
@@ -24,7 +23,8 @@ def save_user(user_input, output_callback):
             lcd.lcd_clear()
             lcd.lcd_display_string("Place Card to ", 1, 0)
             lcd.lcd_display_string("register", 2, 0)
-            output_callback("Place Card to register" + user_input)
+            output_callback("Place Card to register")
+
             id, Tag = read.read()
 
             cursor.execute("SELECT id FROM users WHERE rfid_uid=" + str(id))
@@ -34,7 +34,7 @@ def save_user(user_input, output_callback):
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Overwrite existing user?", 1, 1)
                 output_callback("Overwrite existing user?")
-                overwrite = input("Overwite (Y/N)? ")
+                overwrite = input("Overwrite (Y/N)? ")
 
                 if overwrite[0] == 'Y' or overwrite[0] == 'y':
                     lcd.lcd_clear()
@@ -52,27 +52,15 @@ def save_user(user_input, output_callback):
             else:
                 sql_insert = "INSERT INTO users (rfid_uid, name, department) VALUES (%s, %s, %s)"
 
-            lcd.lcd_clear()
-            lcd.lcd_display_string('Enter new name', 1, 0)
-            output_callback("Enter new name")
-            new_name = input("Name: ")
-            output_callback("Name: ")
-
-            lcd.lcd_clear()
-            lcd.lcd_display_string('Enter new department', 1, 0)
-            output_callback("Enter new department")
-            new_dept = input("Department: ")
-            output_callback("Department: ")
-
-            cursor.execute(sql_insert, (id, new_name, new_dept))
+            cursor.execute(sql_insert, (id, name, department))
 
             db.commit()
 
             lcd.lcd_clear()
-            lcd.lcd_display_string("User " + new_name + "\nSaved", 1, 0)
-            output_callback("User " + new_name + "\nSaved")
-            lcd.lcd_display_string("Department " + new_dept + "\nSaved", 2, 0)
-            output_callback("Department " + new_dept + "\nSaved")
+            lcd.lcd_display_string("User " + name + "\nSaved", 1, 0)
+            output_callback("User " + name + "\nSaved")
+            lcd.lcd_display_string("Department " + department + "\nSaved", 2, 0)
+            output_callback("Department " + department + "\nSaved")
             time.sleep(2)
 
             lcd.lcd_clear()
@@ -83,5 +71,5 @@ def save_user(user_input, output_callback):
                 break
     finally:
         GPIO.cleanup()
-        
+
     GPIO.cleanup()
