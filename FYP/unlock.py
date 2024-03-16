@@ -19,19 +19,22 @@ def is_allowed_to_unlock(tag_id, department):
     department = department.strip()
 
     try:
-
+        cursor.execute("SELECT * FROM your_table WHERE tag_id = %s AND department = %s", (tag_id, department))
         record = cursor.fetchone()
-        print(f"Query result: {record}")
-        record = cursor.fetchone()
-        print(f"Query result: {record}")
 
-        return record is not None
+        if record is not None:
+            print(f"Query result: {record}")
+            return True
+        else:
+            print("No records found for the given tag ID and department.")
+            return False
 
     except mysql.connector.Error as err:
         print("Something went wrong: {}".format(err))
         return False
     finally:
         db.close()
+
 
 
 def unlock_door(department, output_callback):
