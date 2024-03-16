@@ -30,6 +30,8 @@ class DoorLockGUI:
         self.name_entry.pack(side="left")
         self.name_frame.pack()
 
+        self.button = tk.Button(master, text="Unlock Door", command=self.unlock_door_threaded)
+        self.button.pack()
         self.register_button = tk.Button(master, text="Register User", command=self.register_user)
         self.register_button.pack()
 
