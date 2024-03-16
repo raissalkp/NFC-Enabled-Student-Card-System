@@ -26,11 +26,12 @@ def save_user(department, name, output_callback):
             output_callback("Place Card to register")
 
             id, Tag = read.read()  # Fetch RFID UID
+            print("RFID UID:", id)
 
-            cursor.execute("SELECT id FROM users WHERE rfid_uid=" + str(id))
-            cursor.fetchone()
+            cursor.execute("SELECT id FROM users WHERE rfid_uid=%s", (id,))
+            record = cursor.fetchone()
 
-            if cursor.rowcount >= 1:
+            if record:
                 lcd.lcd_clear()
                 lcd.lcd_display_string("Overwrite existing user?", 1, 1)
                 output_callback("Overwrite existing user?")
@@ -41,7 +42,8 @@ def save_user(department, name, output_callback):
                     lcd.lcd_display_string("Overwriting user.", 1, 2)
                     output_callback("Overwriting user.")
                     time.sleep(1)
-                    sql_insert = "UPDATE users SET name = %s WHERE rfid_uid=%s"
+                    sql_update = "UPDATE users SET name = %s WHERE rfid_uid=%s"
+                    cursor.execute(sql_update, (name, id))
                 else:
                     lcd.lcd_clear()
                     lcd.lcd_display_string('Continue? (y/n)', 1, 0)
@@ -51,8 +53,7 @@ def save_user(department, name, output_callback):
                         continue
             else:
                 sql_insert = "INSERT INTO users (rfid_uid, name, department) VALUES (%s, %s, %s)"
-
-            cursor.execute(sql_insert, (id, name, department))
+                cursor.execute(sql_insert, (id, name, department))
 
             db.commit()
 
@@ -73,3 +74,4 @@ def save_user(department, name, output_callback):
         GPIO.cleanup()
 
     GPIO.cleanup()
+
