@@ -1,63 +1,110 @@
 import threading
-from PyQt5 import QtCore, QtWidgets
-from dash import Ui_MainWindow
+import tkinter as tk
+
+import RPi.GPIO as GPIO
+
 import check_attendance
 import save_user
 import unlock
-import I2C_LCD_driver
-import RPi.GPIO as GPIO
+import requests
 
 
-class ExtendedMainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
-    update_output_signal = QtCore.pyqtSignal(str)
+def cleanup_gpio():
+    GPIO.cleanup()
 
-    def __init__(self, parent=None):
-        super(ExtendedMainWindow, self).__init__(parent)
-        self.setupUi(self)
-        self.comboBox.currentIndexChanged.connect(self.onComboBoxChanged)
-        self.update_output_signal.connect(self.update_output)
-        self.dateTimeEdit.setDateTime(QtCore.QDateTime.currentDateTime())
-        lcd = I2C_LCD_driver.lcd()
-        lcd.lcd_clear()
-        GPIO.setwarnings(False)
 
-    def onComboBoxChanged(self, index):
-        if self.comboBox.currentText() == "Attendance":
-            self.start_check_attendance()
-        elif self.comboBox.currentText() == "Add New Student":
-            self.start_save_user()
-        elif self.comboBox.currentText() == "Unlock Door":
-            self.start_unlock()
+BASE_URL = "http://192.168.1.10:5000"
 
-    def start_check_attendance(self):
-        user_input = self.lineEdit.text()
-        thread = threading.Thread(
-            target=lambda: check_attendance.check_attendance(user_input, self.update_output_signal.emit))
-        thread.start()
+
+class NFCSYS:
+    def __init__(self, master):
+        self.master = master
+        master.title("NFC Student System")
+
+        self.label = tk.Label(master, text="NFC Student System")
+        self.label.pack()
+
+        self.department_label = tk.Label(master, text="Select Department:")
+        self.department_label.pack()
+
+        self.department_var = tk.StringVar(master)
+        self.department_var.set("IT")  # Default department
+        self.department_dropdown = tk.OptionMenu(master, self.department_var, "IT", "Beauty", "OP", "Sci",
+                                                 "Culinary", "Eng", "Staff")
+        self.department_dropdown.pack()
+
+        self.name_frame = tk.Frame(master)
+        self.name_label = tk.Label(self.name_frame, text="Enter Name:")
+        self.name_label.pack(side="left")
+        self.name_entry = tk.Entry(self.name_frame)
+        self.name_entry.pack(side="left")
+        self.name_frame.pack()
+
+        self.button = tk.Button(master, text="Unlock Door", command=self.unlock_door_threaded)
+        self.button.pack()
+        self.register_button = tk.Button(master, text="Register User", command=self.register_user)
+        self.register_button.pack()
+        self.button_check_attendance = tk.Button(master, text="Attendance", command=self.check_attendance_threaded)
+        self.button_check_attendance.pack()
+
+        self.text = tk.Text(master, height=10, width=50)
+        self.text.pack()
+
+    def get_recent_attendance(self):
+        endpoint = "/attendance/last_2_hours"
+        url = BASE_URL + endpoint
+
+        try:
+            # Make the API call
+            response = requests.get(url)
+
+            # Check if the request was successful (status code 200)
+            if response.status_code == 200:
+                # Get the JSON response
+                records = response.json()
+
+                # Display the attendance records or process them as needed
+                # For example, you could update a text box with the attendance data
+                print(records)
+            else:
+                # Print an error message if the request was unsuccessful
+                print("Error:", response.status_code)
+        except requests.RequestException as e:
+            # Handle connection errors or other exceptions
+            print("Error:", e)
+
+    def display_message(self, message):
+        self.text.insert(tk.END, message + '\n')
+
+    def unlock_door_threaded(self):
+        department = self.department_var.get()
+        threading.Thread(target=self._unlock_door, args=(department,)).start()
+
+    def _unlock_door(self, department):
+        output_callback = self.display_message
+        unlock.unlock_door(department, output_callback)
         GPIO.cleanup()
 
-    def start_save_user(self):
-        user_input = self.lineEdit.text()
-        thread = threading.Thread(target=lambda: save_user.save_user(user_input, self.update_output_signal.emit))
-        thread.start()
+    def register_user(self):
+        department = self.department_var.get()
+        name = self.name_entry.get()  # Retrieve the entered name
+        threading.Thread(target=self._register_user, args=(department, name)).start()
+
+    def _register_user(self, department, name):
+        output_callback = self.display_message
+        save_user.save_user(department, name, output_callback)
         GPIO.cleanup()
 
-    def start_unlock(self):
-        selected_department = self.comboBox_2.currentText()
-        print(f"Selected department: {selected_department}")  # Debug print
-        thread = threading.Thread(
-            target=lambda: unlock.unlock_door(selected_department, self.update_output_signal.emit))
-        thread.start()
+    def check_attendance_threaded(self):
+        threading.Thread(target=self._check_attendance).start()
+
+    def _check_attendance(self):
+        output_callback = self.display_message
+        check_attendance.check_attendance(output_callback)
         GPIO.cleanup()
 
-    def update_output(self, message):
-        self.label_output.setText(message)
 
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    mainWindow = ExtendedMainWindow()
-    mainWindow.show()
-    sys.exit(app.exec_())
+root = tk.Tk()
+gui = NFCSYS(root)
+root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
+root.mainloop()
