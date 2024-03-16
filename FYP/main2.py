@@ -50,11 +50,8 @@ class DoorLockGUI:
 
     def _unlock_door(self, department):
         output_callback = self.display_message
-        try:
-            unlock.unlock_door(department, output_callback)
-        except Exception as e:
-            messagebox.showerror("Error", f"Error unlocking door: {e}")
-        # Don't call GPIO.cleanup() here
+        unlock.unlock_door(department, output_callback)
+        GPIO.cleanup()
 
     def register_user(self):
         department = self.department_var.get()
@@ -63,22 +60,16 @@ class DoorLockGUI:
 
     def _register_user(self, department, name):
         output_callback = self.display_message
-        try:
-            save_user.save_user(department, name, output_callback)
-        except Exception as e:
-            messagebox.showerror("Error", f"Error registering user: {e}")
-        # Don't call GPIO.cleanup() here
+        save_user.save_user(department, name, output_callback)
+        GPIO.cleanup()
 
     def check_attendance_threaded(self):
         threading.Thread(target=self._check_attendance).start()
 
     def _check_attendance(self):
         output_callback = self.display_message
-        try:
-            check_attendance.check_attendance(None, output_callback)
-        except Exception as e:
-            messagebox.showerror("Error", f"Error checking attendance: {e}")
-        # Don't call GPIO.cleanup() here
+        check_attendance.check_attendance(None, output_callback)
+        GPIO.cleanup()
 
 
 root = tk.Tk()
