@@ -32,7 +32,8 @@ def check_attendance(output_callback):
                 if cursor.rowcount >= 1:
                     lcd.lcd_display_string("Signed in " + result[1])
                     output_callback("Signed in " + result[1])
-                    cursor.execute("INSERT INTO attendance (user_id, name) VALUES (%s, %s)", (result[0],))
+                    cursor.execute("INSERT INTO attendance (user_id, name) VALUES (%s, %s)",
+                                   (result[0], result[1]))
                     db.commit()
                 else:
                     lcd.lcd_display_string("User does not exist.")
