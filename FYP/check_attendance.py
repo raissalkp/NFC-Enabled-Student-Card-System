@@ -1,17 +1,20 @@
-#!/usr/bin/env python
 import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import mysql.connector
 import I2C_LCD_driver as LCD
 
+terminate_check_attendance = False  # Flag variable to control the loop
 
-def check_attendance(user_input, output_callback):
+
+def check_attendance(output_callback):
+    global terminate_check_attendance  # Access the flag variable from the outer scope
+
     try:
         read = SimpleMFRC522()
         lcd = LCD.lcd()
 
-        while True:
+        while not terminate_check_attendance:  # Continue looping until termination flag is set
             lcd.lcd_clear()
             lcd.lcd_display_string("Place Card to ", 1, 0)
             lcd.lcd_display_string("record attendance", 2, 0)
@@ -45,3 +48,8 @@ def check_attendance(user_input, output_callback):
     finally:
         GPIO.cleanup()
     GPIO.cleanup()
+
+
+def stop_check_attendance():
+    global terminate_check_attendance
+    terminate_check_attendance = True  # Set the flag to stop the loop

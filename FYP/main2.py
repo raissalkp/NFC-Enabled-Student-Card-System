@@ -1,13 +1,18 @@
-import tkinter as tk
-from tkinter import messagebox, ttk
-import unlock
-import save_user
-import check_attendance
 import threading
+import tkinter as tk
+
 import RPi.GPIO as GPIO
 
+import check_attendance
+import save_user
+import unlock
 
-class DoorLockGUI:
+
+def cleanup_gpio():
+    GPIO.cleanup()
+
+
+class NFCSYS:
     def __init__(self, master):
         self.master = master
         master.title("NFC Student System")
@@ -67,11 +72,16 @@ class DoorLockGUI:
         threading.Thread(target=self._check_attendance).start()
 
     def _check_attendance(self):
+        self.terminate_check_attendance = threading.Event()
         output_callback = self.display_message
-        check_attendance.check_attendance(None, output_callback)
-        GPIO.cleanup()
+        threading.Thread(target=check_attendance, args=(self.terminate_check_attendance, output_callback)).start()
+
+    def stop_check_attendance(self):
+        self.terminate_check_attendance.set()
 
 
 root = tk.Tk()
-gui = DoorLockGUI(root)
+gui = NFCSYS(root)
+root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
+gui.stop_check_attendance()
 root.mainloop()
