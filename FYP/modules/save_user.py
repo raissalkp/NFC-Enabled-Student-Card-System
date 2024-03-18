@@ -1,7 +1,7 @@
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import I2C_LCD_driver as LCD
+from FYP.dependencies import I2C_LCD_driver as LCD
 import time
 
 

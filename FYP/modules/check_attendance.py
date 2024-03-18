@@ -2,7 +2,7 @@ import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import mysql.connector
-import I2C_LCD_driver as LCD
+from FYP.dependencies import I2C_LCD_driver as LCD
 
 
 def check_attendance(output_callback):
