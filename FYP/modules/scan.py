@@ -1,4 +1,3 @@
-# Include the library filese
 from FYP.dependencies import I2C_LCD_driver
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
@@ -6,17 +5,14 @@ from time import sleep
 
 
 def scan(user_input, output_callback):
-    # Include the buzzer pin
     buzzer = 19
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(buzzer, GPIO.OUT)
 
-    # Create a object for the LCD
     lcd = I2C_LCD_driver.lcd()
 
-    # Create a object for the RFID module
     scan = SimpleMFRC522()
 
     try:
