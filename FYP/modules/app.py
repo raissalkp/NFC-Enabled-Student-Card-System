@@ -16,12 +16,12 @@ def get_db_connection():
 
 @app.route('/attendance/last_2_hours')
 def get_recent_attendance():
-    two_hours_ago = datetime.now() - timedelta(hours=2)
+    one_hours_ago = datetime.now() - timedelta(hours=1)
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
 
     query = "SELECT * FROM attendance WHERE clock_in >= %s"
-    cursor.execute(query, (two_hours_ago,))
+    cursor.execute(query, (one_hours_ago,))
 
     records = cursor.fetchall()
 
