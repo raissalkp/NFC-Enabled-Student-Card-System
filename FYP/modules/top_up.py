@@ -111,7 +111,6 @@ class NFCSYS:
                 else:
                     current_balance = Decimal('0.00')
                     self.display_message("No balance found, starting from 0.")
-
                 new_balance = current_balance + amount_decimal
                 cursor.execute("UPDATE students SET balance = %s WHERE user_id = %s", (new_balance, user_id))
                 db.commit()
