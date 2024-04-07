@@ -1,16 +1,16 @@
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-from FYP.dependencies import I2C_LCD_driver as LCD
+import I2C_LCD_driver as LCD
 import time
 
 
 def save_user(department, name, output_callback):
     db = mysql.connector.connect(
         host="localhost",
-        user="attendanceadmin",
-        passwd="pimylifeup",
-        database="attendancesystem"
+        user="nfcsysadmin",
+        passwd="",
+        database="nfcstudentsys"
     )
 
     cursor = db.cursor()
@@ -28,7 +28,7 @@ def save_user(department, name, output_callback):
             id, Tag = read.read()  # Fetch RFID UID
             print("RFID UID:", id)
 
-            cursor.execute("SELECT id FROM users WHERE rfid_uid=%s", (id,))
+            cursor.execute("SELECT id FROM students WHERE user_id=%s", (id,))
             record = cursor.fetchone()
 
             if record:
@@ -42,7 +42,7 @@ def save_user(department, name, output_callback):
                     lcd.lcd_display_string("Overwriting user.", 1, 2)
                     output_callback("Overwriting user.")
                     time.sleep(1)
-                    sql_update = "UPDATE users SET name = %s WHERE rfid_uid=%s"
+                    sql_update = "UPDATE students SET name = %s WHERE user_id=%s"
                     cursor.execute(sql_update, (name, id))
                 else:
                     lcd.lcd_clear()
@@ -52,7 +52,7 @@ def save_user(department, name, output_callback):
                     if continue_response.lower() != 'y':
                         continue
             else:
-                sql_insert = "INSERT INTO users (rfid_uid, name, department) VALUES (%s, %s, %s)"
+                sql_insert = "INSERT INTO students (user_id, name, department) VALUES (%s, %s, %s)"
                 cursor.execute(sql_insert, (id, name, department))
 
             db.commit()

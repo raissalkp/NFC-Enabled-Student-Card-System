@@ -2,7 +2,7 @@ import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import mysql.connector
-from FYP.dependencies import I2C_LCD_driver as LCD
+import I2C_LCD_driver as LCD
 
 
 def check_attendance(output_callback):
@@ -20,12 +20,12 @@ def check_attendance(output_callback):
 
             with mysql.connector.connect(
                     host="localhost",
-                    user="attendanceadmin",
-                    passwd="pimylifeup",
-                    database="attendancesystem"
+                    user="nfcsysadmin",
+                    passwd="",
+                    database="nfcstudentsys"
             ) as db:
                 cursor = db.cursor()
-                cursor.execute("SELECT id, name FROM users WHERE rfid_uid=%s", (str(id),))
+                cursor.execute("SELECT id, name FROM students WHERE user_id=%s", (str(id),))
                 result = cursor.fetchone()
 
                 lcd.lcd_clear()

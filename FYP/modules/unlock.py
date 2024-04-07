@@ -1,4 +1,4 @@
-from FYP.dependencies import I2C_LCD_driver
+import I2C_LCD_driver
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
@@ -8,9 +8,9 @@ from time import sleep
 def is_allowed_to_unlock(tag_id, department):
     db = mysql.connector.connect(
         host="localhost",
-        user="attendanceadmin",
-        passwd="pimylifeup",
-        database="attendancesystem"
+        user="nfcsysadmin",
+        passwd="",
+        database="nfcstudentsys"
     )
 
     cursor = db.cursor()
@@ -19,7 +19,7 @@ def is_allowed_to_unlock(tag_id, department):
     department = department.strip()
 
     try:
-        cursor.execute("SELECT * FROM users WHERE rfid_uid = %s AND department = %s", (tag_id, department))
+        cursor.execute("SELECT * FROM students WHERE user_id = %s AND department = %s", (tag_id, department))
         record = cursor.fetchone()
 
         if record is not None:
