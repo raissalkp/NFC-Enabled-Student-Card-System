@@ -74,7 +74,7 @@ The system comprises several Python scripts, each serving a unique function with
 
 ### Software Dependencies
 
-Detail any required Python libraries or dependencies in a `requirements.txt` file for easy installation using `pip`.
+Detail any required Python libraries or dependencies in a `requirements.txt` file for easy installation using `pip install -r requirements.txt`.
 
 ### Testing the System
 
