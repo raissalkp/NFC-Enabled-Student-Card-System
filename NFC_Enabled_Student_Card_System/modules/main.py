@@ -2,28 +2,24 @@ import threading
 import tkinter as tk
 import webbrowser
 import time
+import socket
 
+from flask import Flask, jsonify
+import mysql.connector
+from datetime import datetime, timedelta
 import RPi.GPIO as GPIO
 
 import check_attendance
 import save_user
 import unlock
-import requests
-from flask import Flask, jsonify
-import mysql.connector
-from datetime import datetime, timedelta
-import socket
 
-import sys, os
-
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+app = Flask(__name__)
 
 
 def cleanup_gpio():
     GPIO.cleanup()
 
 
-BASE_URL = "http://192.168.1.10:5000"
 app = Flask(__name__)
 
 
@@ -41,20 +37,16 @@ def get_recent_attendance():
     one_hours_ago = datetime.now() - timedelta(hours=1)
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-
     query = "SELECT * FROM attendance WHERE clock_in >= %s"
     cursor.execute(query, (one_hours_ago,))
-
     records = cursor.fetchall()
-
     cursor.close()
     conn.close()
-
     return jsonify(records)
 
 
 def start_flask_app():
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=2000, debug=True, use_reloader=False)
 
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -106,13 +98,12 @@ class NFCSYS:
         self.text.pack()
 
     def start_api_and_open_browser(self):
-        threading.Thread(target=start_flask_app).start()
-        self.display_message("API server starting on http://0.0.0.0:5000")
+        self.display_message("API server starting on http://0.0.0.0:2000")
         threading.Thread(target=self.open_browser).start()
 
     def open_browser(self):
         ip_address = get_ip_address()
-        url = f'http://{ip_address}:5000/attendance/last_1_hours'
+        url = f'http://{ip_address}:2000/attendance/last_1_hours'
         time.sleep(5)
         webbrowser.open(url)
 
@@ -148,6 +139,10 @@ class NFCSYS:
 
 
 if __name__ == "__main__":
+    # Start Flask in the main thread
+    threading.Thread(target=start_flask_app).start()
+
+    # Initialize and run the Tkinter GUI in the main thread
     root = tk.Tk()
     gui = NFCSYS(root)
     root.protocol("WM_DELETE_WINDOW", cleanup_gpio)

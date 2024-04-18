@@ -32,7 +32,7 @@ def get_recent_attendance():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=2000, debug=True)
 
     # http://192.168.1.10:5000/attendance/last_2_hours
     # insert raspberry pi IP address
