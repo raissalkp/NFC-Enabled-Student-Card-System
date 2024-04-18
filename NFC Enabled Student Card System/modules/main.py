@@ -1,5 +1,7 @@
 import threading
 import tkinter as tk
+import webbrowser
+import time
 
 import RPi.GPIO as GPIO
 
@@ -7,6 +9,9 @@ import check_attendance
 import save_user
 import unlock
 import requests
+from flask import Flask, jsonify, app
+import mysql.connector
+from datetime import datetime, timedelta
 
 
 def cleanup_gpio():
@@ -16,6 +21,37 @@ def cleanup_gpio():
 BASE_URL = "http://192.168.1.10:5000"
 
 
+def get_db_connection():
+    return mysql.connector.connect(
+        host="localhost",
+        user="nfcsysadmin",
+        passwd="",
+        database="nfcstudentsys"
+    )
+
+
+@app.route('/attendance/last_1_hours')
+def get_recent_attendance():
+    one_hours_ago = datetime.now() - timedelta(hours=1)
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    query = "SELECT * FROM attendance WHERE clock_in >= %s"
+    cursor.execute(query, (one_hours_ago,))
+
+    records = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return jsonify(records)
+
+
+
+def start_flask_app():
+    app.run(host='0.0.0.0', port=5000, debug=True)
+
+
 class NFCSYS:
     def __init__(self, master):
         self.master = master
@@ -23,6 +59,10 @@ class NFCSYS:
 
         self.label = tk.Label(master, text="NFC Student System")
         self.label.pack()
+
+        self.start_api_button = tk.Button(master, text="Start API Server and Open Browser",
+                                          command=self.start_api_and_open_browser)
+        self.start_api_button.pack()
 
         self.department_label = tk.Label(master, text="Select Department:")
         self.department_label.pack()
@@ -50,28 +90,14 @@ class NFCSYS:
         self.text = tk.Text(master, height=10, width=50)
         self.text.pack()
 
-    def get_recent_attendance(self):
-        endpoint = "/attendance/last_2_hours"
-        url = BASE_URL + endpoint
+    def start_api_and_open_browser(self):
+        threading.Thread(target=start_flask_app).start()
+        self.display_message("API server starting on http://0.0.0.0:5000")
+        threading.Thread(target=self.open_browser).start()
 
-        try:
-            # Make the API call
-            response = requests.get(url)
-
-            # Check if the request was successful (status code 200)
-            if response.status_code == 200:
-                # Get the JSON response
-                records = response.json()
-
-                # Display the attendance records or process them as needed
-                # For example, you could update a text box with the attendance data
-                print(records)
-            else:
-                # Print an error message if the request was unsuccessful
-                print("Error:", response.status_code)
-        except requests.RequestException as e:
-            # Handle connection errors or other exceptions
-            print("Error:", e)
+    def open_browser(self):
+        time.sleep(5)
+        webbrowser.open('http://localhost:5000/attendance/last_1_hours')
 
     def display_message(self, message):
         self.text.insert(tk.END, message + '\n')
