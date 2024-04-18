@@ -1,9 +1,10 @@
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import I2C_LCD_driver as LCD
+import NFC_Enabled_Student_Card_System.dependencies.I2C_LCD_driver as LCD
 import time
-
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def save_user(department, name, output_callback):
     db = mysql.connector.connect(

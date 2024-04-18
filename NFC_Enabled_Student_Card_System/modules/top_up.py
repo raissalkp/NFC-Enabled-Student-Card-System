@@ -1,11 +1,14 @@
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
-import I2C_LCD_driver as LCD
+import NFC_Enabled_Student_Card_System.dependencies.I2C_LCD_driver as LCD
 import threading
 import tkinter as tk
 from tkinter import messagebox
 from decimal import Decimal
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 db_config = {
     'host':"localhost",

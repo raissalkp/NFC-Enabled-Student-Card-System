@@ -5,13 +5,17 @@ import time
 
 import RPi.GPIO as GPIO
 
-import check_attendance
+from . import check_attendance
 import save_user
 import unlock
 import requests
-from flask import Flask, jsonify, app
+from flask import Flask, jsonify
 import mysql.connector
 from datetime import datetime, timedelta
+
+import sys, os
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def cleanup_gpio():
@@ -19,6 +23,7 @@ def cleanup_gpio():
 
 
 BASE_URL = "http://192.168.1.10:5000"
+app = Flask(__name__)
 
 
 def get_db_connection():
@@ -45,7 +50,6 @@ def get_recent_attendance():
     conn.close()
 
     return jsonify(records)
-
 
 
 def start_flask_app():
@@ -130,7 +134,8 @@ class NFCSYS:
         GPIO.cleanup()
 
 
-root = tk.Tk()
-gui = NFCSYS(root)
-root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
-root.mainloop()
+if __name__ == "__main__":
+    root = tk.Tk()
+    gui = NFCSYS(root)
+    root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
+    root.mainloop()

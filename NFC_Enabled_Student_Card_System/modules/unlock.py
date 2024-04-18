@@ -1,9 +1,10 @@
-import I2C_LCD_driver
+import NFC_Enabled_Student_Card_System.dependencies.I2C_LCD_driver
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from time import sleep
-
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def is_allowed_to_unlock(tag_id, department):
     db = mysql.connector.connect(

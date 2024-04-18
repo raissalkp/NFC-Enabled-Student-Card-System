@@ -2,8 +2,9 @@ import time
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 import mysql.connector
-import I2C_LCD_driver as LCD
-
+import NFC_Enabled_Student_Card_System.dependencies.I2C_LCD_driver as LCD
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def check_attendance(output_callback):
     try:

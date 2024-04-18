@@ -18,7 +18,7 @@ The system uses NFC/RFID tags for identifying individuals, logging their attenda
 balance and a parking system automatically upon tag detection. The integration with an I2C LCD display provides 
 real-time feedback, such as user identification and attendance status.
 
-![img.png](NFC Enabled Student Card System/assets/img.png)
+![img.png](NFC_Enabled_Student_Card_System/assets/img.png)
 ----------------------------------------------------
 Hardware setup for NFC Enabled Student Card System. 
 
