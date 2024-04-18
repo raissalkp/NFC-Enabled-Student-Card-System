@@ -9,9 +9,9 @@ import mysql.connector
 from datetime import datetime, timedelta
 import RPi.GPIO as GPIO
 
-import check_attendance
-import save_user
-import unlock
+from check_attendance import check_attendance
+from save_user import save_user
+from unlock import unlock_door
 
 app = Flask(__name__)
 
@@ -48,6 +48,7 @@ def get_recent_attendance():
 def start_flask_app():
     app.run(host='0.0.0.0', port=2000, debug=True, use_reloader=False)
 
+
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -58,6 +59,7 @@ def get_ip_address():
     finally:
         s.close()
     return IP
+
 
 class NFCSYS:
     def __init__(self, master):
@@ -111,31 +113,28 @@ class NFCSYS:
         self.text.insert(tk.END, message + '\n')
 
     def unlock_door_threaded(self):
-        department = self.department_var.get()
-        threading.Thread(target=self._unlock_door, args=(department,)).start()
+        threading.Thread(target=self._unlock_door).start()
 
-    def _unlock_door(self, department):
+    def _unlock_door(self):
+        department = self.department_var.get()  # Assuming department selection is already handled
         output_callback = self.display_message
-        unlock.unlock_door(department, output_callback)
-        GPIO.cleanup()
+        unlock_door(department, output_callback)
+
+    def register_user_threaded(self):
+        threading.Thread(target=self.register_user).start()
 
     def register_user(self):
         department = self.department_var.get()
         name = self.name_entry.get()  # Retrieve the entered name
-        threading.Thread(target=self._register_user, args=(department, name)).start()
-
-    def _register_user(self, department, name):
         output_callback = self.display_message
-        save_user.save_user(department, name, output_callback)
-        GPIO.cleanup()
+        save_user(department, name, output_callback)
 
     def check_attendance_threaded(self):
         threading.Thread(target=self._check_attendance).start()
 
     def _check_attendance(self):
         output_callback = self.display_message
-        check_attendance.check_attendance(output_callback)
-        GPIO.cleanup()
+        check_attendance(output_callback)
 
 
 if __name__ == "__main__":

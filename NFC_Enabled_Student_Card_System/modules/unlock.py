@@ -4,7 +4,9 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from time import sleep
 import os, sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 
 def is_allowed_to_unlock(tag_id, department):
     db = mysql.connector.connect(
@@ -40,7 +42,6 @@ def is_allowed_to_unlock(tag_id, department):
 def unlock_door(department, output_callback):
     buzzer = 19
     relay = 26
-    door = True
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     GPIO.setup(buzzer, GPIO.OUT)
@@ -48,17 +49,13 @@ def unlock_door(department, output_callback):
     lcd = I2C_LCD_driver.lcd()
     read = SimpleMFRC522()
 
-    lcd.lcd_display_string("Door lock system", 1, 0)
-    output_callback("Door lock system")
-    sleep(1)
-
-    while True:
+    try:
         lcd.lcd_clear()
         lcd.lcd_display_string("Place your Tag", 1, 0)
         output_callback("Place your Tag")
 
         id, _ = read.read()
-        id = str(id)
+        id = str(id).strip()
 
         if is_allowed_to_unlock(id, department):
             output_callback("Access granted for department: " + department)
@@ -66,24 +63,14 @@ def unlock_door(department, output_callback):
             GPIO.output(buzzer, GPIO.HIGH)
             sleep(0.5)
             GPIO.output(buzzer, GPIO.LOW)
+            GPIO.output(relay, GPIO.HIGH)  # Ensure relay is turned off after opening
         else:
             output_callback("Access denied for department: " + department)
-            GPIO.output(buzzer, GPIO.HIGH)
-            sleep(0.3)
-            GPIO.output(buzzer, GPIO.LOW)
-            sleep(0.3)
-            GPIO.output(buzzer, GPIO.HIGH)
-            sleep(0.3)
-            GPIO.output(buzzer, GPIO.LOW)
-            sleep(0.3)
-            GPIO.output(buzzer, GPIO.HIGH)
-            sleep(0.3)
-            GPIO.output(buzzer, GPIO.LOW)
+            for _ in range(3):
+                GPIO.output(buzzer, GPIO.HIGH)
+                sleep(0.3)
+                GPIO.output(buzzer, GPIO.LOW)
+                sleep(0.3)
+    finally:
+        GPIO.cleanup()
 
-        lcd.lcd_clear()
-        lcd.lcd_display_string('Continue? (y/n)', 1, 0)
-        continue_response = input("Continue? (y/n): ")
-        if continue_response.lower() != 'y':
-            break
-
-    GPIO.cleanup()
