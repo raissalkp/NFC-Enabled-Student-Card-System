@@ -1,4 +1,4 @@
-import NFC_Enabled_Student_Card_System.dependencies.I2C_LCD_driver
+import I2C_LCD_driver
 import mysql.connector
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522

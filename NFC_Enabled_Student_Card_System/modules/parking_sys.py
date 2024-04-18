@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from decimal import Decimal
 import mysql.connector
 from mfrc522 import SimpleMFRC522
-import NFC_Enabled_Student_Card_System.dependencies.I2C_LCD_driver as LCD
+import I2C_LCD_driver as LCD
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

@@ -5,13 +5,14 @@ import time
 
 import RPi.GPIO as GPIO
 
-from . import check_attendance
+import check_attendance
 import save_user
 import unlock
 import requests
 from flask import Flask, jsonify
 import mysql.connector
 from datetime import datetime, timedelta
+import socket
 
 import sys, os
 
@@ -55,6 +56,16 @@ def get_recent_attendance():
 def start_flask_app():
     app.run(host='0.0.0.0', port=5000, debug=True)
 
+def get_ip_address():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
 
 class NFCSYS:
     def __init__(self, master):
@@ -100,8 +111,10 @@ class NFCSYS:
         threading.Thread(target=self.open_browser).start()
 
     def open_browser(self):
+        ip_address = get_ip_address()
+        url = f'http:/{ip_address}:5000/attendance/last_1_hours'
         time.sleep(5)
-        webbrowser.open('http://localhost:5000/attendance/last_1_hours')
+        webbrowser.open(url)
 
     def display_message(self, message):
         self.text.insert(tk.END, message + '\n')
