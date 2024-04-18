@@ -112,7 +112,7 @@ class NFCSYS:
 
     def open_browser(self):
         ip_address = get_ip_address()
-        url = f'http:/{ip_address}:5000/attendance/last_1_hours'
+        url = f'http://{ip_address}:5000/attendance/last_1_hours'
         time.sleep(5)
         webbrowser.open(url)
 
