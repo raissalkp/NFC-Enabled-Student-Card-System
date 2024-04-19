@@ -93,30 +93,27 @@ def get_ip_address():
 
 class NFCSYS:
     """
+    This class represents the NFC Student System application.
 
-    :class:`NFCSYS` is a class for the NFC Student System application.
-
-    It provides methods to interact with the application's user interface.
-
-    Methods:
-        - :meth:`__init__`: Initializes the application and sets up the user interface.
-        - :meth:`start_api_and_open_browser`: Starts the API server and opens the browser.
-        - :meth:`open_browser`: Opens the browser to display attendance information.
-        - :meth:`display_message`: Displays a message in the application's text area.
-        - :meth:`unlock_door_threaded`: Starts a separate thread to unlock the door.
-        - :meth:`_unlock_door`: Unlocks the door for the selected department.
-        - :meth:`register_user_threaded`: Starts a separate thread to register a user.
-        - :meth:`register_user`: Registers a user for the selected department.
-        - :meth:`check_attendance_threaded`: Starts a separate thread to check attendance.
-        - :meth:`_check_attendance`: Checks attendance and displays the result.
+    To use this class, create an instance of it by passing the master window as the argument to the constructor.
 
     Example usage:
-        ::
 
-            root = tk.Tk()
-            nfc_sys = NFCSYS(root)
-            root.mainloop()
+        root = tk.Tk()
+        app = NFCSYS(root)
+        root.mainloop()
 
+    Methods:
+    - __init__(self, master): Initializes the NFC Student System application.
+    - start_api_and_open_browser(self): Starts the API server and opens a browser window to display the attendance data.
+    - open_browser(self): Opens a browser window to display the attendance data.
+    - display_message(self, message): Displays a message in the text box of the application.
+    - unlock_door_threaded(self): Starts a thread to unlock the door based on the selected department.
+    - _unlock_door(self): Unlocks the door based on the selected department.
+    - register_user_threaded(self): Starts a thread to register a new user based on the selected department and entered name.
+    - register_user(self): Registers a new user based on the selected department and entered name.
+    - check_attendance_threaded(self): Starts a thread to check the attendance and display it in the text box.
+    - _check_attendance(self): Checks the attendance and displays it in the text box.
     """
     def __init__(self, master):
         self.master = master
