@@ -1,9 +1,12 @@
-import pytest
+import os
+import sys
 import tkinter as tk
 from unittest.mock import MagicMock, patch
-import sys
+
+import pytest
 
 sys.path.insert(0, '/NFC_Enabled_Student_Card_System/module')
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 # Mock external dependencies
 sys.modules['mfrc522'] = MagicMock()

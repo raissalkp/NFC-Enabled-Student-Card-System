@@ -1,10 +1,11 @@
 import pytest
-import sys
+import sys, os
 import tkinter as tk
 import threading
 from unittest.mock import MagicMock, patch
 
 sys.path.insert(0, 'NFC_Enabled_Student_Card_System/modules')
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 # Mock modules that are not available or not necessary for the unit tests
 sys.modules['RPi'] = MagicMock()
