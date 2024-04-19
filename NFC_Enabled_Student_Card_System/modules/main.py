@@ -146,3 +146,4 @@ if __name__ == "__main__":
     gui = NFCSYS(root)
     root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
     root.mainloop()
+    

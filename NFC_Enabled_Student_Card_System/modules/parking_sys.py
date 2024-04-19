@@ -6,6 +6,7 @@ from decimal import Decimal
 import mysql.connector
 from mfrc522 import SimpleMFRC522
 import I2C_LCD_driver as LCD
+import RPi.GPIO as GPIO
 import os, sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -52,6 +53,7 @@ class ParkingSystem:
         self.status_text.insert(tk.END, message + '\n')
 
     def start_parking_session_threaded(self):
+        self.running = True
         threading.Thread(target=self.start_parking_session).start()
 
     def start_parking_session(self):
@@ -110,6 +112,8 @@ class ParkingSystem:
     def exit_application(self):
         GPIO.cleanup()
         self.master.quit()
+        self.master.destroy
+        sys.exit(0)
 
 if __name__ == "__main__":
     root = tk.Tk()

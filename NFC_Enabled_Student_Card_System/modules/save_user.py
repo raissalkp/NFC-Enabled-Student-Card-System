@@ -51,4 +51,6 @@ def save_user(department, name, output_callback):
             time.sleep(2)
 
     finally:
+        cursor.close()
+        db.close
         GPIO.cleanup()
