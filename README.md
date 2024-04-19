@@ -90,6 +90,6 @@ To ensure the system operates correctly:
 *   **`scan.py`**: Core script for interfacing with the NFC/RFID reader, responsible for detecting and processing tag information.
 *   **Other Scripts**: Include details about other components like `check_attendance.py`, `save_user.py`, etc., explaining their functions within the context of NFC/RFID tag processing.
 
-### Practices and Conventions
-
-This project follows best practices in Python programming, modular design for ease of testing and maintenance, and clear documentation for setup and usage.
+### Code References
+* This project used the `I2C_LCD_driver.py` library designed by Denis Pleic, which can be found [here](https://gist.github.com/vay3t/8b0577acfdb27a78101ed16dd78ecba1) 
+* This project has taken inspiration from the following projects [PiMyLifeUp](https://pimylifeup.com/raspberry-pi-rfid-attendance-system/), [SriTu Hobby](https://www.youtube.com/watch?v=p1RfcgJnHR4&t=12s), [davidcdupuis](https://github.com/davidcdupuis/NFCAttendanceLogger/blob/master/NFC.py), 
