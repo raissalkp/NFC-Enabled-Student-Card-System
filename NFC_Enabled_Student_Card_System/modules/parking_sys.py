@@ -25,22 +25,15 @@ def get_db_connection():
 
 class ParkingSystem:
     """
-    Class representing a NFC Parking System.
+    This class represents the NFC Parking System.
 
-    Args:
-        master (tkinter.Tk): The master tkinter window.
-
-    Attributes:
-        master (tkinter.Tk): The master tkinter window.
-        lcd (lcd): The LCD object.
-        read (SimpleMFRC522): The SimpleMFRC522 object.
-        hour_label (tkinter.Label): The label for entering parking hours.
-        hour_entry (tkinter.Entry): The entry for entering parking hours.
-        license_plate_label (tkinter.Label): The label for entering license plate.
-        license_plate_entry (tkinter.Entry): The entry for entering license plate.
-        start_session_button (tkinter.Button): The button to start a parking session.
-        status_text (tkinter.Text): The text box to display status messages.
-        exit_button (tkinter.Button): The button to exit the application.
+    Methods:
+    - display_message: Displays a message in the status text area.
+    - start_parking_session_threaded: Starts a parking session in a separate thread.
+    - start_parking_session: Starts a parking session.
+    - end_parking_session_threaded: Ends a parking session in a separate thread.
+    - end_parking_session: Ends a parking session.
+    - exit_application: Exits the application.
     """
     def __init__(self, master):
         self.master = master

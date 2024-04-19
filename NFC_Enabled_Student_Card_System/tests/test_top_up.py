@@ -20,7 +20,9 @@ from NFC_Enabled_Student_Card_System.modules.top_up import NFCSYS
 
 @pytest.fixture
 def app():
-    """Fixture to create a parking system app with a fully mocked master tkinter window."""
+    """
+    Returns an instance of the NFCSYS application.
+    """
     master = MagicMock(spec=tk.Tk)
     master.tk = MagicMock()
     master.children = {}  # Properly mock the children dictionary
@@ -33,20 +35,26 @@ def app():
 
 
 def test_initialization(app):
-    """Test the initialization and UI setup of the NFCSYS class."""
+    """
+    This method is used to test the initialization of the tkinter application.
+    """
     app.master.title.assert_called_with("NFC Student Balance System")
     assert isinstance(app.update_balance_button, tk.Button)
 
 
 def test_update_balance_threaded(app):
-    """Ensure the balance update starts in a new thread."""
+    """
+    Test that the update_balance_threaded method starts a new thread to handle balance updates.
+    """
     with patch('threading.Thread') as mock_thread:
         app.update_balance_threaded()
         mock_thread.assert_called_once()
 
 
 def test_display_message(app):
-    """Test the display_message method for proper GUI handling."""
+    """
+    Test method to verify the behavior of the display_message method in the application.
+    """
     message = "Test message"
     app.display_message(message)
     app.status_text.insert.assert_called_once_with(tk.END, message + '\n')

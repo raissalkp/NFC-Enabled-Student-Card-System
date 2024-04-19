@@ -10,26 +10,21 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def check_attendance(output_callback):
     """
-    :param output_callback: A callback function that will output messages during the execution of the method.
-    :return: None
-
-    This method checks the attendance of a student by reading their NFC card. It takes an output_callback as a parameter, which is a function that will be called to output messages during the execution of the method.
-
-    The method first initializes the MFRC522 reader and the LCD display.
-
+    This method checks the attendance of a student by reading their NFC card. It takes an output_callback as a parameter
+    , which is a function that will be called to output messages during the method.
+    The method first initialises the MFRC522 reader and the LCD.
     It then displays a message on the LCD screen and calls the output_callback function to display a message.
-
     Next, it reads the ID and Tag from the NFC card.
-
-    It connects to the MySQL database and executes a SELECT query to retrieve the student's ID and name based on their NFC card ID.
-
-    If a matching student is found, it displays a message on the LCD screen and calls the output_callback function to display a message. It also inserts the attendance record into the database.
-
-    If no matching student is found, it displays a "User does not exist" message on the LCD screen and calls the output_callback function to display a message.
-
-    If any exception occurs during the execution of the method, an error message with the exception details is displayed and the GPIO is cleaned up.
-
-    Note: The GPIO.cleanup() method is called in the finally block to ensure that the GPIO pins are cleaned up even if an exception occurs.
+    It connects to the MySQL database and executes a SELECT query to retrieve the student's ID and name based on their
+    NFC card ID.
+    If a matching student is found, it displays a message on the LCD screen and calls the output_callback function to
+    display a message. It also inserts the attendance record into the database.
+    If no matching student is found, it displays a "User does not exist" message on the LCD screen and calls the
+    output_callback function to display a message.
+    If any exception occurs during the execution of the method, an error message with the exception details is displayed
+    and the GPIO is cleaned up.
+    The GPIO.cleanup() method is called in the finally block to ensure that the GPIO pins are cleaned up even if an
+    exception occurs.
     """
     try:
         read = SimpleMFRC522()

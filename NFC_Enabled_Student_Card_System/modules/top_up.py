@@ -69,22 +69,14 @@ class NFCSYS:
     """
     The NFCSYS class represents a system for updating student balances using NFC cards.
 
-    Args:
-        master: The master Tkinter object for the GUI application.
-
-    Attributes:
-        master: The master Tkinter object for the GUI application.
-        lcd: An instance of the LCD class for displaying messages.
-        read: An instance of the SimpleMFRC522 class for reading NFC card data.
-
     Methods:
-        __init__: Initializes the NFCSYS object.
-        setup_gui: Sets up the GUI elements for the application.
-        update_balance_threaded: Starts a new thread for updating the balance.
-        _update_balance: Updates the balance for a given user.
+    - __init__: Initializes the NFCSYS object.
+    - setup_gui: Sets up the GUI elements for the application.
+    - update_balance_threaded: Starts a new thread for updating the balance.
+    - _update_balance: Updates the balance for a given user.
             Only used internally by the update_balance_threaded method.
-        clear_status_text: Clears the status text in the GUI.
-        display_message: Displays a message in the status text area of the GUI.
+        - clear_status_text: Clears the status text in the GUI.
+        - display_message: Displays a message in the status text area of the GUI.
     """
     def __init__(self, master):
         self.master = master

@@ -26,8 +26,6 @@ app = Flask(__name__)
 def get_db_connection():
     """
     Returns a connection object for connecting to the database.
-
-    :return: Database connection object.
     """
     return mysql.connector.connect(
         host="localhost",
@@ -41,8 +39,6 @@ def get_db_connection():
 def get_recent_attendance():
     """
     Retrieves the attendance records from the last 1 hour.
-
-    :return: A JSON response containing the attendance records.
     """
     one_hours_ago = datetime.now() - timedelta(hours=1)
     conn = get_db_connection()
@@ -56,29 +52,12 @@ def get_recent_attendance():
 
 
 def start_flask_app():
-    """
-    Starts the Flask application.
-
-    **Parameters**
-
-    None
-
-    **Returns**
-
-    None
-
-    **Usage**
-
-    >>> start_flask_app()
-    """
     app.run(host='0.0.0.0', port=2000, debug=True, use_reloader=False)
 
 
 def get_ip_address():
     """
-    Get the IP address of the current machine.
-
-    :return: The IP address of the current machine.
+    Gets the IP address of the current machine.
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -93,24 +72,17 @@ def get_ip_address():
 
 class NFCSYS:
     """
-    This class represents the NFC Student System application.
-
-    To use this class, create an instance of it by passing the master window as the argument to the constructor.
-
-    Example usage:
-
-        root = tk.Tk()
-        app = NFCSYS(root)
-        root.mainloop()
+    This class represents the main NFC Student System application.
 
     Methods:
-    - __init__(self, master): Initializes the NFC Student System application.
+    - __init__(self, master): Initialises the NFC Student System application.
     - start_api_and_open_browser(self): Starts the API server and opens a browser window to display the attendance data.
     - open_browser(self): Opens a browser window to display the attendance data.
     - display_message(self, message): Displays a message in the text box of the application.
     - unlock_door_threaded(self): Starts a thread to unlock the door based on the selected department.
     - _unlock_door(self): Unlocks the door based on the selected department.
-    - register_user_threaded(self): Starts a thread to register a new user based on the selected department and entered name.
+    - register_user_threaded(self): Starts a thread to register a new user based on the selected department and entered
+        name.
     - register_user(self): Registers a new user based on the selected department and entered name.
     - check_attendance_threaded(self): Starts a thread to check the attendance and display it in the text box.
     - _check_attendance(self): Checks the attendance and displays it in the text box.
@@ -169,7 +141,7 @@ class NFCSYS:
         threading.Thread(target=self._unlock_door).start()
 
     def _unlock_door(self):
-        department = self.department_var.get()  # Assuming department selection is already handled
+        department = self.department_var.get()
         output_callback = self.display_message
         unlock_door(department, output_callback)
 
@@ -178,7 +150,7 @@ class NFCSYS:
 
     def register_user(self):
         department = self.department_var.get()
-        name = self.name_entry.get()  # Retrieve the entered name
+        name = self.name_entry.get()
         output_callback = self.display_message
         save_user(department, name, output_callback)
 
