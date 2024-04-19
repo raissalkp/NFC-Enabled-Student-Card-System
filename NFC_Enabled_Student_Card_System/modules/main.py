@@ -24,6 +24,11 @@ app = Flask(__name__)
 
 
 def get_db_connection():
+    """
+    Returns a connection object for connecting to the database.
+
+    :return: Database connection object.
+    """
     return mysql.connector.connect(
         host="localhost",
         user="nfcsysadmin",
@@ -34,6 +39,11 @@ def get_db_connection():
 
 @app.route('/attendance/last_1_hours')
 def get_recent_attendance():
+    """
+    Retrieves the attendance records from the last 1 hour.
+
+    :return: A JSON response containing the attendance records.
+    """
     one_hours_ago = datetime.now() - timedelta(hours=1)
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -46,10 +56,30 @@ def get_recent_attendance():
 
 
 def start_flask_app():
+    """
+    Starts the Flask application.
+
+    **Parameters**
+
+    None
+
+    **Returns**
+
+    None
+
+    **Usage**
+
+    >>> start_flask_app()
+    """
     app.run(host='0.0.0.0', port=2000, debug=True, use_reloader=False)
 
 
 def get_ip_address():
+    """
+    Get the IP address of the current machine.
+
+    :return: The IP address of the current machine.
+    """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         s.connect(('10.255.255.255', 1))
@@ -62,6 +92,32 @@ def get_ip_address():
 
 
 class NFCSYS:
+    """
+
+    :class:`NFCSYS` is a class for the NFC Student System application.
+
+    It provides methods to interact with the application's user interface.
+
+    Methods:
+        - :meth:`__init__`: Initializes the application and sets up the user interface.
+        - :meth:`start_api_and_open_browser`: Starts the API server and opens the browser.
+        - :meth:`open_browser`: Opens the browser to display attendance information.
+        - :meth:`display_message`: Displays a message in the application's text area.
+        - :meth:`unlock_door_threaded`: Starts a separate thread to unlock the door.
+        - :meth:`_unlock_door`: Unlocks the door for the selected department.
+        - :meth:`register_user_threaded`: Starts a separate thread to register a user.
+        - :meth:`register_user`: Registers a user for the selected department.
+        - :meth:`check_attendance_threaded`: Starts a separate thread to check attendance.
+        - :meth:`_check_attendance`: Checks attendance and displays the result.
+
+    Example usage:
+        ::
+
+            root = tk.Tk()
+            nfc_sys = NFCSYS(root)
+            root.mainloop()
+
+    """
     def __init__(self, master):
         self.master = master
         master.title("NFC Student System")
@@ -138,10 +194,7 @@ class NFCSYS:
 
 
 if __name__ == "__main__":
-    # Start Flask in the main thread
     threading.Thread(target=start_flask_app).start()
-
-    # Initialize and run the Tkinter GUI in the main thread
     root = tk.Tk()
     gui = NFCSYS(root)
     root.protocol("WM_DELETE_WINDOW", cleanup_gpio)

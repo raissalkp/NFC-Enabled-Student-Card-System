@@ -3,9 +3,18 @@ import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 from time import sleep
 import os, sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+
 def scan(user_input, output_callback):
+    """
+    Scans a RFID tag and displays the Tag ID.
+
+    :param user_input: The user input parameter.
+    :param output_callback: The output callback parameter.
+    :return: None
+    """
     buzzer = 19
 
     GPIO.setmode(GPIO.BCM)

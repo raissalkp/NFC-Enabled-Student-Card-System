@@ -8,39 +8,61 @@ from mfrc522 import SimpleMFRC522
 import I2C_LCD_driver as LCD
 import RPi.GPIO as GPIO
 import os, sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 db_config = {
-    'host':"localhost",
-    'user':"nfcsysadmin",
-    'passwd':"",
-    'database':"nfcstudentsys"
+    'host': "localhost",
+    'user': "nfcsysadmin",
+    'passwd': "",
+    'database': "nfcstudentsys"
 }
+
 
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
+
 class ParkingSystem:
+    """
+    Class representing a NFC Parking System.
+
+    Args:
+        master (tkinter.Tk): The master tkinter window.
+
+    Attributes:
+        master (tkinter.Tk): The master tkinter window.
+        lcd (lcd): The LCD object.
+        read (SimpleMFRC522): The SimpleMFRC522 object.
+        hour_label (tkinter.Label): The label for entering parking hours.
+        hour_entry (tkinter.Entry): The entry for entering parking hours.
+        license_plate_label (tkinter.Label): The label for entering license plate.
+        license_plate_entry (tkinter.Entry): The entry for entering license plate.
+        start_session_button (tkinter.Button): The button to start a parking session.
+        status_text (tkinter.Text): The text box to display status messages.
+        exit_button (tkinter.Button): The button to exit the application.
+    """
     def __init__(self, master):
         self.master = master
         master.title("NFC Parking System")
 
         self.lcd = LCD.lcd()
         self.read = SimpleMFRC522()
-        
+
         self.hour_label = tk.Label(master, text="Enter Parking Hours:")
         self.hour_label.pack()
 
         self.hour_entry = tk.Entry(master)
         self.hour_entry.pack()
-        
+
         self.license_plate_label = tk.Label(master, text="Enter License Plate:")
         self.license_plate_label.pack()
 
         self.license_plate_entry = tk.Entry(master)
         self.license_plate_entry.pack()
 
-        self.start_session_button = tk.Button(master, text="Start Parking Session", command=self.start_parking_session_threaded)
+        self.start_session_button = tk.Button(master, text="Start Parking Session",
+                                              command=self.start_parking_session_threaded)
         self.start_session_button.pack()
 
         self.status_text = tk.Text(master, height=10, width=50)
@@ -95,7 +117,8 @@ class ParkingSystem:
             """, (user_id, 0.50, license_plate, charge, end_time))
 
             db.commit()
-            self.display_message(f"Parking started for {hours_parked} hour(s). Charge: €{charge}. End time: {end_time}. Balance updated.")
+            self.display_message(
+                f"Parking started for {hours_parked} hour(s). Charge: €{charge}. End time: {end_time}. Balance updated.")
         except mysql.connector.Error as err:
             self.display_message(f"Database error: {str(err)}")
             db.rollback()
@@ -114,6 +137,7 @@ class ParkingSystem:
         self.master.quit()
         self.master.destroy
         sys.exit(0)
+
 
 if __name__ == "__main__":
     root = tk.Tk()

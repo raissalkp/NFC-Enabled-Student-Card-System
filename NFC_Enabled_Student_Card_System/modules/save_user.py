@@ -9,6 +9,22 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def save_user(department, name, output_callback):
+    """
+    :param department: The department of the user being saved.
+    :param name: The name of the user being saved.
+    :param output_callback: A callback function used to output messages or information.
+
+    :return: None
+
+    This method is used to save a user's information into the database. It takes three parameters: department, name, and output_callback. The department parameter represents the department of the user being saved. The name parameter represents the name of the user being saved. The output_callback parameter is a callback function that can be used to output messages or information during the execution of the method.
+
+    Example usage:
+    save_user("Sales", "John Doe", output_function)
+
+    The method connects to a MySQL database using the provided credentials. It then initializes an RFID reader and an LCD display. The method prompts the user to place their card on the RFID reader and retrieves the unique ID (UID) of the card. The method checks if the user is already registered in the database by searching for the UID in the "students" table. If the user is already registered, a message is displayed on the LCD display and outputted using the output_callback function. If the user is not registered, their information is inserted into the "students" table in the database. A success message is displayed on the LCD display and outputted using the output_callback function.
+
+    The method ensures that the database connection, cursor, GPIO, and LCD resources are properly closed or cleaned up.
+    """
     db = mysql.connector.connect(
         host="localhost",
         user="nfcsysadmin",

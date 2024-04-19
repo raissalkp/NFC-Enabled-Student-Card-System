@@ -9,6 +9,13 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 def is_allowed_to_unlock(tag_id, department):
+    """
+    Check if a given tag ID is allowed to unlock based on department.
+
+    :param tag_id: A string representing the tag ID to check.
+    :param department: A string representing the department to check against.
+    :return: True if the tag ID is allowed to unlock, False otherwise.
+    """
     db = mysql.connector.connect(
         host="localhost",
         user="nfcsysadmin",
@@ -40,6 +47,15 @@ def is_allowed_to_unlock(tag_id, department):
 
 
 def unlock_door(department, output_callback):
+    """
+    Unlocks the door for a specified department.
+
+    :param department: The department for which access is being granted.
+    :type department: str
+    :param output_callback: A callback function to output messages.
+    :type output_callback: function
+    :return: None
+    """
     buzzer = 19
     relay = 26
     GPIO.setmode(GPIO.BCM)
