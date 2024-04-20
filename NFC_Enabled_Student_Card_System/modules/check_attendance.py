@@ -48,7 +48,8 @@ def check_attendance(output_callback):
 
             lcd.lcd_clear()
             if cursor.rowcount >= 1:
-                lcd.lcd_display_string("Signed in " + result[1])
+                lcd.lcd_display_string("Signed in ", 1, 0)
+                lcd.lcd_display_string(result[1], 2, 0)
                 output_callback("Signed in " + result[1])
                 cursor.execute("INSERT INTO attendance (user_id, name) VALUES (%s, %s)",
                                (result[0], result[1]))

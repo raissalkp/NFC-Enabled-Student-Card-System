@@ -35,11 +35,12 @@ class ParkingSystem:
     - end_parking_session: Ends a parking session.
     - exit_application: Exits the application.
     """
+    lcd = LCD.lcd()
+
     def __init__(self, master):
         self.master = master
         master.title("NFC Parking System")
 
-        self.lcd = LCD.lcd()
         self.read = SimpleMFRC522()
 
         self.hour_label = tk.Label(master, text="Enter Parking Hours:")
@@ -63,6 +64,7 @@ class ParkingSystem:
 
         self.exit_button = tk.Button(master, text="Exit", command=self.exit_application)
         self.exit_button.pack(side="bottom")
+        lcd.lcd_clear()
 
     def display_message(self, message):
         self.status_text.insert(tk.END, message + '\n')
@@ -78,17 +80,28 @@ class ParkingSystem:
         try:
             hours_parked = float(hours_parked)
             if hours_parked <= 0:
+                lcd.lcd_display_string("Parking hours ", 1, 0)
+                lcd.lcd_display_string("must be greater ", 2, 0)
+                lcd.lcd_clear()
+                lcd.lcd_display_string("than 0.", 2, 0)
                 raise ValueError("Parking hours must be greater than 0.")
         except ValueError as e:
+            lcd.lcd_display_string("Invalid parking ", 1, 0)
+            lcd.lcd_display_string(f"hours: {str(e)}", 2, 0)
             self.display_message(f"Invalid parking hours: {str(e)}")
             return
 
         try:
             self.display_message("Ready to scan card...")
+            lcd.lcd_display_string("Ready to scan ", 1, 0)
+            lcd.lcd_display_string("card...", 2, 0)
             user_id, _ = self.read.read()
             self.display_message(f"Card scanned with ID: {user_id}")
+            lcd.lcd_display_string("Card scanned ", 1, 0)
+            lcd.lcd_display_string(f"{user_id}", 2, 0)
         except Exception as e:
             self.display_message(f"Error scanning card: {str(e)}")
+            lcd.lcd_display_string("Error scanning card", 1, 0)
             return
 
         if hours_parked <= 2:
@@ -124,6 +137,8 @@ class ParkingSystem:
 
     def end_parking_session(self):
         self.display_message("Ending parking session...")
+        lcd.lcd_display_string("Ending parking ", 1, 0)
+        lcd.lcd_display_string("session...", 1, 0)
 
     def exit_application(self):
         GPIO.cleanup()
