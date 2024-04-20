@@ -120,8 +120,8 @@ class NFCSYS:
 
         try:
             self.display_message("Ready to scan card...")
-            lcd.lcd_display_string("Ready to scan ", 1, 0)
-            lcd.lcd_display_string("card...", 2, 0)
+            self.lcd.lcd_display_string("Ready to scan ", 1, 0)
+            self.lcd.lcd_display_string("card...", 2, 0)
             user_id, _ = self.read.read()
             self.display_message(f"Card scanned with ID: {user_id}")
         except Exception as e:
@@ -140,12 +140,14 @@ class NFCSYS:
                 else:
                     current_balance = Decimal('0.00')
                     self.display_message("No balance found, starting from 0.")
-                    lcd.lcd_display_string("No balance found", 1, 0)
+                    self.lcd.lcd_display_string("No balance found", 1, 0)
                 new_balance = current_balance + amount_decimal
                 cursor.execute("UPDATE students SET balance = %s WHERE user_id = %s", (new_balance, user_id))
                 db.commit()
+                self.lcd.lcd_clear()
                 self.display_message(f"Balance updated successfully. New Balance: {new_balance}")
-                lcd.lcd_display_string(f"New Balance: {new_balance}", 1, 0)
+                self.lcd.lcd_display_string(f"New Balance:", 1, 0)
+                self.lcd.lcd_display_string(f"{new_balance}", 2, 0)
             except mysql.connector.Error as err:
                 self.display_message(f"Database error: {str(err)}")
                 db.rollback()
