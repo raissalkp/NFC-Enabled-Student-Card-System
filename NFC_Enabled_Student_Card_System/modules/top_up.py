@@ -95,7 +95,7 @@ class NFCSYS:
         self.balance_entry = tk.Entry(self.master)
         self.balance_entry.pack()
 
-        self.update_balance_button = tk.Button(self.master, text="Update Balance", command=self.update_balance_threaded)
+        self.update_balance_button = tk.Button(self.master, text="Top Up Balance", command=self.update_balance_threaded)
         self.update_balance_button.pack(pady=15)
 
         self.status_text = tk.Text(self.master, height=4, width=50)
