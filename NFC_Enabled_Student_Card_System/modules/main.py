@@ -3,6 +3,7 @@ import tkinter as tk
 import webbrowser
 import time
 import socket
+import sys
 
 from flask import Flask, jsonify
 import mysql.connector
@@ -87,6 +88,7 @@ class NFCSYS:
     - check_attendance_threaded(self): Starts a thread to check the attendance and display it in the text box.
     - _check_attendance(self): Checks the attendance and displays it in the text box.
     """
+
     def __init__(self, master):
         self.master = master
         master.title("NFC Student System")
@@ -120,6 +122,9 @@ class NFCSYS:
         self.register_button.pack()
         self.button_check_attendance = tk.Button(master, text="Attendance", command=self.check_attendance_threaded)
         self.button_check_attendance.pack()
+
+        self.exit_button = tk.Button(master, text="Exit", command=self.exit_application)
+        self.exit_button.pack(side="bottom")
 
         self.text = tk.Text(master, height=10, width=50)
         self.text.pack()
@@ -161,11 +166,19 @@ class NFCSYS:
         output_callback = self.display_message
         check_attendance(output_callback)
 
+    def exit_application(self):
+        """
+        Cleans up the GPIO pins, destroys the main window, and exits the application.
+        """
+        GPIO.cleanup()
+        self.master.quit()
+        self.master.destroy()
+        sys.exit(0)
+
 
 if __name__ == "__main__":
     threading.Thread(target=start_flask_app).start()
     root = tk.Tk()
-    gui = NFCSYS(root)
-    root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
+    app = NFCSYS(root)
+    root.protocol("WM_DELETE_WINDOW", app.exit_application)
     root.mainloop()
-    

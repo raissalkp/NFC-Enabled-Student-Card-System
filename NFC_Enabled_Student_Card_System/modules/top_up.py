@@ -101,11 +101,8 @@ class NFCSYS:
         self.status_text = tk.Text(self.master, height=4, width=50)
         self.status_text.pack(pady=10)
 
-        self.clear_button = tk.Button(self.master, text="Clear Status", command=self.clear_status_text)
-        self.clear_button.pack(pady=5)
-
-        self.exit_button = tk.Button(self.master, text="Exit", command=self.master.quit)
-        self.exit_button.pack(side="bottom", pady=5)
+        self.exit_button = tk.Button(self.master, text="Exit", command=self.exit_application)
+        self.exit_button.pack(side="bottom")
 
     def update_balance_threaded(self):
         amount = self.balance_entry.get()
@@ -161,6 +158,15 @@ class NFCSYS:
     def display_message(self, message):
         self.status_text.insert(tk.END, message + '\n')
 
+    def exit_application(self):
+        """
+        Cleans up the GPIO pins, destroys the main window, and exits the application.
+        """
+        GPIO.cleanup()
+        self.master.quit()
+        self.master.destroy()
+        sys.exit(0)
+
 
 def cleanup_gpio():
     GPIO.cleanup()
@@ -169,5 +175,5 @@ def cleanup_gpio():
 if __name__ == "__main__":
     root = tk.Tk()
     app = NFCSYS(root)
-    root.protocol("WM_DELETE_WINDOW", cleanup_gpio)
+    root.protocol("WM_DELETE_WINDOW", app.exit_application)
     root.mainloop()
