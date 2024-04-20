@@ -34,9 +34,9 @@ Start by cloning the repository to obtain the latest version of the project:
 
 1.  **Environment Preparation**: Ensure Python 3.x is installed on your system, along with all necessary libraries listed in the `requirements.txt` file (assumed to be included in your project repository).
     
-2.  **Hardware Connections**: Connect your NFC/RFID reader and I2C LCD display to your Raspberry Pi or similar device according to the provided schematics or connection guide.
+2.  **Hardware Connections**: Connect your NFC/RFID reader and I2C LCD display to your Raspberry Pi or similar device according to the provided schematics.
     
-3.  **Running the Main Application**: Navigate to the project directory and execute the `main.py` script to initiate the access control, attendance tracking and adding a student systems:
+3.  **Running the Main Application**: Navigate to the project directory and execute the `main.py` script to initiate the access control, attendance tracking and adding a student to the system:
 `python main.py`
 4. **Running the Top-Up Application**: Navigate to the project directory and execute the `top_up.py` script to initiate the top up of the balance:`python top_up.py`
 
@@ -47,14 +47,13 @@ Start by cloning the repository to obtain the latest version of the project:
 The system comprises several Python scripts, each serving a unique function within the attendance management ecosystem:
 
 *   **`I2C_LCD_driver.py`**: Manages interactions with the I2C LCD display.
-*   **`app.py`**: Acts as the API end point to see attendance from the last hour.
 *   **`check_attendance.py`**: Handles attendance verification and logging.
 *   **`save_user.py`**: Manages user data storage and retrieval.
 *   **`scan.py`**: Interfaces with the ID scanner for user identification.
 *   **`top_up.py`**: Manages account top-ups for users.
 * **`parking_sys.py`**: Handles payment for parking.
 *   **`unlock.py`**: Controls access mechanisms based on user authentication.
-* **`main.py`**: Acts as the central script to run the application.
+* **`main.py`**: Acts as the central script to run the application as well as the API scripts.
 
 ### Hardware Requirements
 
