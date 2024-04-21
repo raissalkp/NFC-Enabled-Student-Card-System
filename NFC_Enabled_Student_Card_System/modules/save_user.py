@@ -51,7 +51,8 @@ def save_user(department, name, output_callback):
 
         if record:
             lcd.lcd_clear()
-            lcd.lcd_display_string("User already registered.", 1, 1)
+            lcd.lcd_display_string("User already", 1, 0)
+            lcd.lcd_display_string("registered.", 2, 0)
             output_callback("User already registered.")
             time.sleep(2)
         else:

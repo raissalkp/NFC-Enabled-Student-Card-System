@@ -135,7 +135,8 @@ class NFCSYS:
         self.text.pack()
 
     def start_api_and_open_browser(self):
-        self.display_message("API server starting on http://0.0.0.0:2000")
+        ip_address = get_ip_address()
+        self.display_message(f'API server starting on http://{ip_address}:2000')
         threading.Thread(target=self.open_browser).start()
 
     def open_browser(self):
