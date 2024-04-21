@@ -125,7 +125,7 @@ class ParkingSystem:
             self.display_message(
                 f"Parking started for {hours_parked} hour(s). Charge: €{charge}. End time: {end_time}. Balance updated.")
         except mysql.connector.Error as err:
-            self.display_message(f"Database error: {str(err)}")
+            self.display_message(f"User does not exist")
             db.rollback()
         finally:
             cursor.close()
@@ -150,3 +150,4 @@ if __name__ == "__main__":
     root = tk.Tk()
     app = ParkingSystem(root)
     root.mainloop()
+

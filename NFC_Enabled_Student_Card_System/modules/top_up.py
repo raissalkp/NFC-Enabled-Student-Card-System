@@ -95,7 +95,7 @@ class NFCSYS:
         self.balance_entry = tk.Entry(self.master)
         self.balance_entry.pack()
 
-        self.update_balance_button = tk.Button(self.master, text="Top Up Balance", command=self.update_balance_threaded)
+        self.update_balance_button = tk.Button(self.master, text="Update Balance", command=self.update_balance_threaded)
         self.update_balance_button.pack(pady=15)
 
         self.status_text = tk.Text(self.master, height=4, width=50)
@@ -132,19 +132,19 @@ class NFCSYS:
             try:
                 cursor.execute("SELECT balance FROM students WHERE user_id = %s", (user_id,))
                 result = cursor.fetchone()
-                if result and result[0] is not None:
+                if result:
+                    cuurent_balance = result[0] if result[0] is not None else Decimal('0.00')
                     current_balance = result[0]
+                    new_balance = current_balance + amount_decimal
+                    cursor.execute("UPDATE students SET balance = %s WHERE user_id = %s", (new_balance, user_id))
+                    db.commit()
+                    self.lcd.lcd_clear()
+                    self.display_message(f"Balance updated successfully. New Balance: €{new_balance}")
+                    self.lcd.lcd_display_string(f"New Balance:", 1, 0)
+                    self.lcd.lcd_display_string(f"{new_balance}", 2, 0)
                 else:
-                    current_balance = Decimal('0.00')
-                    self.display_message("No balance found, starting from 0.")
-                    self.lcd.lcd_display_string("No balance found", 1, 0)
-                new_balance = current_balance + amount_decimal
-                cursor.execute("UPDATE students SET balance = %s WHERE user_id = %s", (new_balance, user_id))
-                db.commit()
-                self.lcd.lcd_clear()
-                self.display_message(f"Balance updated successfully. New Balance: {new_balance}")
-                self.lcd.lcd_display_string(f"New Balance:", 1, 0)
-                self.lcd.lcd_display_string(f"{new_balance}", 2, 0)
+                    self.display_message("User not found. Balance not updated.")
+                    self.lcd.lcd_display_string("User not found.", 1, 0)
             except mysql.connector.Error as err:
                 self.display_message(f"Database error: {str(err)}")
                 db.rollback()
