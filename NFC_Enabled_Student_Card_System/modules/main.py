@@ -13,6 +13,8 @@ import RPi.GPIO as GPIO
 from check_attendance import check_attendance
 from save_user import save_user
 from unlock import unlock_door
+sys.path.insert(0, '/home/raissa/NFC-Enabled-Student-Card-System/NFC_Enabled_Student_Card_System/dependencies/')
+import I2C_LCD_driver as LCD
 
 app = Flask(__name__)
 
@@ -176,6 +178,7 @@ class NFCSYS:
         """
         Cleans up the GPIO pins, destroys the main window, and exits the application.
         """
+        lcd.lcd_clear()
         GPIO.cleanup()
         self.master.quit()
         self.master.destroy()

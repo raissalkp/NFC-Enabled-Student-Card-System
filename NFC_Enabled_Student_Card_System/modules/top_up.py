@@ -167,6 +167,7 @@ class NFCSYS:
         """
         Cleans up the GPIO pins, destroys the main window, and exits the application.
         """
+        lcd.lcd_clear()
         GPIO.cleanup()
         self.master.quit()
         self.master.destroy()

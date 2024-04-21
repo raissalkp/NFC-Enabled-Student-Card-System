@@ -139,6 +139,7 @@ class ParkingSystem:
         self.lcd.lcd_display_string("session...", 1, 0)
 
     def exit_application(self):
+        lcd.lcd_clear()
         GPIO.cleanup()
         self.master.quit()
         self.master.destroy
