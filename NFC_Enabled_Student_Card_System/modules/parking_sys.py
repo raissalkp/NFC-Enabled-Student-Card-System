@@ -80,9 +80,8 @@ class ParkingSystem:
             hours_parked = float(hours_parked)
             if hours_parked <= 0:
                 self.lcd.lcd_display_string("Parking hours ", 1, 0)
-                self.lcd.lcd_display_string("must be greater ", 2, 0)
+                self.lcd.lcd_display_string("must be > than 0 ", 2, 0)
                 self.lcd.lcd_clear()
-                self.lcd.lcd_display_string("than 0.", 2, 0)
                 raise ValueError("Parking hours must be greater than 0.")
         except ValueError as e:
             self.lcd.lcd_display_string("Invalid parking ", 1, 0)

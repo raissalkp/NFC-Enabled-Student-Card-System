@@ -111,6 +111,11 @@ class NFCSYS:
     def _update_balance(self, amount):
         try:
             amount_decimal = Decimal(amount)
+            if amount_decimal < 0:
+                self.display_message("Invalid amount: Must be greater than 0.")
+                self.lcd.lcd_display_string("Invalid amount", 1, 0)
+                self.lcd.lcd_display_string("Must be > 0", 2, 0)
+                return
         except ValueError:
             self.display_message("Invalid amount entered. Please enter a numeric value.")
             return

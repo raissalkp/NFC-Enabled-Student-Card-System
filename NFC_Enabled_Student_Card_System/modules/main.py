@@ -18,6 +18,9 @@ app = Flask(__name__)
 
 
 def cleanup_gpio():
+    """
+    Clean up the GPIO pins by calling the cleanup method provided by the GPIO library.
+    """
     GPIO.cleanup()
 
 
@@ -26,7 +29,7 @@ app = Flask(__name__)
 
 def get_db_connection():
     """
-    Returns a connection object for connecting to the database.
+    Returns a database connection object.
     """
     return mysql.connector.connect(
         host="localhost",
@@ -39,7 +42,7 @@ def get_db_connection():
 @app.route('/attendance/last_1_hours')
 def get_recent_attendance():
     """
-    Retrieves the attendance records from the last 1 hour.
+    Fetches the attendance records that occurred within the last 1 hour.
     """
     one_hours_ago = datetime.now() - timedelta(hours=1)
     conn = get_db_connection()
@@ -53,12 +56,15 @@ def get_recent_attendance():
 
 
 def start_flask_app():
+    """
+    Starts the Flask application.
+    """
     app.run(host='0.0.0.0', port=2000, debug=True, use_reloader=False)
 
 
 def get_ip_address():
     """
-    Gets the IP address of the current machine.
+    Returns the IP address of the current machine.
     """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
@@ -73,22 +79,21 @@ def get_ip_address():
 
 class NFCSYS:
     """
-    This class represents the main NFC Student System application.
+       This class represents the main NFC Student System application.
 
-    Methods:
-    - __init__(self, master): Initialises the NFC Student System application.
-    - start_api_and_open_browser(self): Starts the API server and opens a browser window to display the attendance data.
-    - open_browser(self): Opens a browser window to display the attendance data.
-    - display_message(self, message): Displays a message in the text box of the application.
-    - unlock_door_threaded(self): Starts a thread to unlock the door based on the selected department.
-    - _unlock_door(self): Unlocks the door based on the selected department.
-    - register_user_threaded(self): Starts a thread to register a new user based on the selected department and entered
-        name.
-    - register_user(self): Registers a new user based on the selected department and entered name.
-    - check_attendance_threaded(self): Starts a thread to check the attendance and display it in the text box.
-    - _check_attendance(self): Checks the attendance and displays it in the text box.
-    """
-
+       Methods:
+       - __init__(self, master): Initialises the NFC Student System application.
+       - start_api_and_open_browser(self): Starts the API server and opens a browser window to display the attendance data.
+       - open_browser(self): Opens a browser window to display the attendance data.
+       - display_message(self, message): Displays a message in the text box of the application.
+       - unlock_door_threaded(self): Starts a thread to unlock the door based on the selected department.
+       - _unlock_door(self): Unlocks the door based on the selected department.
+       - register_user_threaded(self): Starts a thread to register a new user based on the selected department and entered
+           name.
+       - register_user(self): Registers a new user based on the selected department and entered name.
+       - check_attendance_threaded(self): Starts a thread to check the attendance and display it in the text box.
+       - _check_attendance(self): Checks the attendance and displays it in the text box.
+       """
     def __init__(self, master):
         self.master = master
         master.title("NFC Student System")
