@@ -36,7 +36,7 @@ def app():
 
 def test_initialization(app):
     """
-    This method is used to test the initialization of the tkinter application.
+    This method is used to test the initialisation of the tkinter application.
     """
     app.master.title.assert_called_with("NFC Student Balance System")
     assert isinstance(app.update_balance_button, tk.Button)
@@ -53,7 +53,7 @@ def test_update_balance_threaded(app):
 
 def test_display_message(app):
     """
-    Test method to verify the behavior of the display_message method in the application.
+    Test method to verify the behaviour  of the display_message method in the application.
     """
     message = "Test message"
     app.display_message(message)
