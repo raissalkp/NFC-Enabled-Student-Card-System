@@ -135,6 +135,7 @@ class NFCSYS:
 
         self.text = tk.Text(master, height=10, width=50)
         self.text.pack()
+        self.lcd = LCD.lcd()
 
     def start_api_and_open_browser(self):
         ip_address = get_ip_address()
