@@ -31,7 +31,7 @@ def app():
 
 def test_initialization(app):
     """
-    Check if the app initialization is correct.
+    Check if the app initialisation is correct.
     """
     assert app.master.title() == "NFC Parking System"
     assert isinstance(app.hour_entry, tk.Entry)
@@ -48,7 +48,7 @@ def test_start_parking_session_threaded(app):
 
 def test_display_message(app):
     """
-    This method tests the `display_message` method of the given `app` object. It passes a test message, "Welcome to Parking System", to the `display_message` method and asserts that the `insert` method of the `status_text` attribute of the `app` object is called once with the test message appended with a newline character.
+    This method tests the `display_message` method of the given `app` object.
     """
     test_message = "Welcome to Parking System"
     app.display_message(test_message)

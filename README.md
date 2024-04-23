@@ -49,7 +49,6 @@ The system comprises several Python scripts, each serving a unique function with
 *   **`I2C_LCD_driver.py`**: Manages interactions with the I2C LCD display.
 *   **`check_attendance.py`**: Handles attendance verification and logging.
 *   **`save_user.py`**: Manages user data storage and retrieval.
-*   **`scan.py`**: Interfaces with the ID scanner for user identification.
 *   **`top_up.py`**: Manages account top-ups for users.
 * **`parking_sys.py`**: Handles payment for parking.
 *   **`unlock.py`**: Controls access mechanisms based on user authentication.
@@ -86,8 +85,7 @@ To ensure the system operates correctly:
 ### System Components
 
 *   **`I2C_LCD_driver.py`**: Manages the LCD display for feedback.
-*   **`scan.py`**: Core script for interfacing with the NFC/RFID reader, responsible for detecting and processing tag information.
-*   **Other Scripts**: Include details about other components like `check_attendance.py`, `save_user.py`, etc., explaining their functions within the context of NFC/RFID tag processing.
+*   **Other Scripts**: All other scripts have their functionalities explained in comments in its native file.
 
 ### Code References
 * This project used the `I2C_LCD_driver.py` library designed by Denis Pleic, which can be found [here](https://gist.github.com/vay3t/8b0577acfdb27a78101ed16dd78ecba1) 

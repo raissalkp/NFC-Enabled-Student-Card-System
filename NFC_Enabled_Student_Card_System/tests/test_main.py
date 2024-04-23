@@ -22,7 +22,7 @@ class TestNFCSYS:
     The TestNFCSYS class represents a set of unit tests for the NFCSYS class.
 
     Methods:
-        - setup_method(): A pytest fixture that sets up the necessary mocks and initializes the nfcsys_obj.
+        - setup_method(): A pytest fixture that sets up the necessary mocks and initialises the nfcsys_obj.
         - test_init(): Tests whether nfcsys_obj's master attribute is set correctly.
         - test_start_api_and_open_browser(): Tests whether start_api_and_open_browser method calls the Thread class.
         - test_display_message(): Tests whether display_message method calls the insert method of the text widget.
