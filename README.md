@@ -49,7 +49,6 @@ The system comprises several Python scripts, each serving a unique function with
 *   **`I2C_LCD_driver.py`**: Manages interactions with the I2C LCD display.
 *   **`check_attendance.py`**: Handles attendance verification and logging.
 *   **`save_user.py`**: Manages user data storage and retrieval.
-*   **`scan.py`**: Interfaces with the ID scanner for user identification.
 *   **`top_up.py`**: Manages account top-ups for users.
 * **`parking_sys.py`**: Handles payment for parking.
 *   **`unlock.py`**: Controls access mechanisms based on user authentication.
