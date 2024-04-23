@@ -12,6 +12,7 @@ sys.modules['RPi.GPIO'] = MagicMock()
 sys.modules['check_attendance'] = MagicMock()
 sys.modules['save_user'] = MagicMock()
 sys.modules['unlock'] = MagicMock()
+sys.modules['I2C_LCD_driver'] = MagicMock()
 
 from NFC_Enabled_Student_Card_System.modules.main import NFCSYS
 
