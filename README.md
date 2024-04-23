@@ -85,8 +85,7 @@ To ensure the system operates correctly:
 ### System Components
 
 *   **`I2C_LCD_driver.py`**: Manages the LCD display for feedback.
-*   **`scan.py`**: Core script for interfacing with the NFC/RFID reader, responsible for detecting and processing tag information.
-*   **Other Scripts**: Include details about other components like `check_attendance.py`, `save_user.py`, etc., explaining their functions within the context of NFC/RFID tag processing.
+*   **Other Scripts**: All other scripts have their functionalities explained in comments in its native file.
 
 ### Code References
 * This project used the `I2C_LCD_driver.py` library designed by Denis Pleic, which can be found [here](https://gist.github.com/vay3t/8b0577acfdb27a78101ed16dd78ecba1) 
