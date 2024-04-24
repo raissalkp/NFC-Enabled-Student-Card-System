@@ -30,17 +30,55 @@ Start by cloning the repository to obtain the latest version of the project:
 
 `git clone https://github.com/raissalkp/NFC-Enabled-Student-Card-System`
 
-#### Setup and Installation
+### Software Dependencies
 
-1.  **Environment Preparation**: Ensure Python 3.x is installed on your system, along with all necessary libraries listed in the `requirements.txt` file (assumed to be included in your project repository).
-    
-2.  **Hardware Connections**: Connect your NFC/RFID reader and I2C LCD display to your Raspberry Pi or similar device according to the provided schematics.
-    
-3.  **Running the Main Application**: Navigate to the project directory and execute the `main.py` script to initiate the access control, attendance tracking and adding a student to the system:
+Install Python libraries or dependencies in a `requirements.txt` file for easy installation using `pip install -r requirements.txt` or `sudo pip3 install -r requirements.txt`.
+
+### Setup System
+To set up hardware:
+* Connect the GPIO Extension Board to the Raspberry Pi
+* Connect Extension Board to breadboard
+* For the RFID RC522:
+  * connect GND to GND (-)
+  * connect SDA to CEO
+  * connect SCk to SCLK
+  * connect MOSI to MOSI
+  * connect MISO to MISO
+  * connect GND to GND
+  * connect RST to GPIO25
+  * connect 3.3v -- 3.3v
+* Connect the buzzer to pin 27 + and - and connect + to GPIO19
+* For the LCD:
+  * connect GND to GND
+  * connect VCC TO 5v
+  * connect SDA to SDA
+  * connect SCL to SCL
+* For the relay module
+  * connect VCC to 3.3v
+  * connect GND to GND
+  * connect IN to GPIO26
+  * connect COM to a 12VDC input
+  * connect NC to the solenoid lock
+  * connect the solenoid lock to 12VDC input
+
+To set up software:
+* Install Raspberry Pi on an SD card
+* Insert SD card into Raspberry Pi
+* Connect all the necessary peripherals i.e. mouse, keyboard, monitor, power supply
+* Connect to network
+* Install pip through command line `sudo apt install python3-dev python3-pip`
+* Install spidev `sudo pip3 install spidev`
+* Install RC522 library `sudo pip3 install mfrc522`
+* Enable I2C and SPI communications through Raspberry Pi configuration
+
+#### Execute System
+ 
+1. **Running the Main Application**: Navigate to the project directory and execute the `main.py` script to initiate the access control, attendance tracking and adding a student to the system:
 `python main.py`
-4. **Running the Top-Up Application**: Navigate to the project directory and execute the `top_up.py` script to initiate the top up of the balance:`python top_up.py`
+2. **Running the Top-Up Application**: Navigate to the project directory and execute the `top_up.py` script to initiate the top up of the balance:`python top_up.py`
 
-5. **Running the Parking System Application**: Navigate to the project directory and execute the `parking_sys.py` script to initiate the parking system:`python parking_sys.py`
+3. **Running the Parking System Application**: Navigate to the project directory and execute the `parking_sys.py` script to initiate the parking system:`python parking_sys.py`
+4. All applications can also be executed by opening the IDE Thonny, locating the directory and running it through the IDE.
 
 ### System Structure
 
@@ -69,23 +107,6 @@ The system comprises several Python scripts, each serving a unique function with
 * Jumper Wires M/F
 * RFID Cards/Tags
 *   Raspberry Pi (or compatible device)
-
-### Software Dependencies
-
-Detail any required Python libraries or dependencies in a `requirements.txt` file for easy installation using `pip install -r requirements.txt`.
-
-### Testing the System
-
-To ensure the system operates correctly:
-
-1.  **Test the NFC/RFID Reader**: Verify the reader can detect and read NFC/RFID tags accurately.
-2.  **LCD Feedback**: Check the I2C LCD display shows the correct information upon tag scans.
-3.  **Log Attendance**: Confirm that attendance records are correctly logged in the system for each tag detected.
-
-### System Components
-
-*   **`I2C_LCD_driver.py`**: Manages the LCD display for feedback.
-*   **Other Scripts**: All other scripts have their functionalities explained in comments in its native file.
 
 ### Code References
 * This project used the `I2C_LCD_driver.py` library designed by Denis Pleic, which can be found [here](https://gist.github.com/vay3t/8b0577acfdb27a78101ed16dd78ecba1) 
