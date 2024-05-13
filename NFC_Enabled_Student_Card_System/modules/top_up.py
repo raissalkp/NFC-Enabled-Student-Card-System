@@ -138,8 +138,7 @@ class NFCSYS:
                 cursor.execute("SELECT balance FROM students WHERE user_id = %s", (user_id,))
                 result = cursor.fetchone()
                 if result:
-                    cuurent_balance = result[0] if result[0] is not None else Decimal('0.00')
-                    current_balance = result[0]
+                    current_balance = result[0] if result[0] is not None else Decimal('0.00')
                     new_balance = current_balance + amount_decimal
                     cursor.execute("UPDATE students SET balance = %s WHERE user_id = %s", (new_balance, user_id))
                     db.commit()
